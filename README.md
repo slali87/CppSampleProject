@@ -2,7 +2,7 @@
 
 ## Welcome to **CppSampleProject**, the C++ sample project!
 
-This is a **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest) and [**Markdown**](https://www.markdownguide.org/).
+This is a **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/) and **Bash** and **Batch** scripts.
 
 ### **Structure of the project:**
 ```
@@ -26,6 +26,7 @@ ProgrammingRepo
                 AppTestCases.cpp
                 LibTestCases.cpp
                 CMakeLists.txt
+            tools
             CMakeLists.txt
 ```
 - **ProgrammingRepo `*`**  
@@ -56,6 +57,9 @@ ProgrammingRepo
 
 - **test**  
     It is a folder to store the test related header and source files.
+
+- **tools**  
+    It is a folder to store the tools and scripts.
 
 `*` ***Please note*** that the folders - marked with `*` - are not part of this **Git** repository!  
 The **ProgrammingRepo** and **Projects** folders are [*prerequisites*](#prerequisites).  
@@ -91,12 +95,22 @@ Move into the **ProgrammingRepo** folder and run:
 ```
 cd Projects
 git clone https://github.com/slali87/CppSampleProject.git
+cd CppSampleProject
+```
+
+### **Set up the project:**
+Move into the **CppSampleProject** folder and run:
+```
+./setup.sh   #on Linux
+```
+or
+```
+./setup.bat   #on Windows
 ```
 
 ### **Steps of build:**
-Move into the **Projects** folder and run:
+Move into the **CppSampleProject** folder and run:
 ```
-cd CppSampleProject
 cmake -B build   # Specify the CMake generator if the default is not right!
 cd build
 cmake --build .
