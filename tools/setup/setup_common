@@ -1,0 +1,2 @@
+echo "Common Setup part"
+git config core.hooksPath ./tools/git/hooks

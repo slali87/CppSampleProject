@@ -1,0 +1,45 @@
+#!/bin/bash
+
+testCommitMessageChecker () {
+    echo "$1" > ./tmp
+    ./commit-msg ./tmp
+    error=$?
+    rm ./tmp
+    if [ $error -ne $2 ]; then
+        echo "Test failed!!!"
+        exit 1
+    fi
+}
+
+# Checker fails when header is too long.
+testCommitMessageChecker $'HeaderHeaderHeaderHeaderHeaderHeaderHeaderHeaderHeader\n\n' 1
+
+# Checker fails when header is invalid.
+testCommitMessageChecker $'Header\n\n' 2
+
+# Checker fails when there is no enough lines.
+testCommitMessageChecker $'FEAT: First' 3
+
+# Checker fails when there is no enough lines.
+testCommitMessageChecker $'FEAT: First\n' 3
+
+# Checker fails when second line is not empty.
+testCommitMessageChecker $'FEAT: First\nSecond\nThird\n\n' 4
+
+# Checker fails when third line is empty.
+testCommitMessageChecker $'FEAT: First\n\n' 5
+
+# Checker fails when third line is empty.
+testCommitMessageChecker $'FEAT: First\n\n\n' 5
+
+# Checker fails when a line is too long.
+testCommitMessageChecker $'FEAT: First\n\nThirdThirdThirdThirdThirdThirdThirdThirdThirdThirdThirdThirdThirdThirdThird' 6
+
+# Checker passes.
+testCommitMessageChecker $'FEAT: First\n\nThird' 0
+
+echo "=============================="
+echo "Tests successfully finished!"
+echo "=============================="
+
+exit 0
