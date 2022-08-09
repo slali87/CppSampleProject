@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Setup by Bash Shell Script"
 
-source ./tools/setup/setup_common
+./tools/setup/setup_common
 error=$?
 
 echo
