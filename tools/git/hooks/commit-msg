@@ -9,7 +9,7 @@ if [ ${#HEADER} -gt $MAX_HEADER_LEN ]; then
 fi
 
 # Check if the header is valid.
-PATTERN="^(FEAT|FIX|IMPR|TEST|TOOLS|DOCS): (.*)$"
+PATTERN="^(FEAT|FIX|IMPR|TEST|TOOLS|DOCS): (.+)$"
 if ! echo "$HEADER" | grep -Eq "$PATTERN"; then
     echo "Header of the commit message is invalid!!!"
     echo "   $HEADER"

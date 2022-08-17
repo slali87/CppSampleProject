@@ -17,6 +17,12 @@ testCommitMessageChecker $'HeaderHeaderHeaderHeaderHeaderHeaderHeaderHeaderHeade
 # Checker fails when header is invalid.
 testCommitMessageChecker $'Header\n\n' 2
 
+# Checker fails when header is invalid (no space).
+testCommitMessageChecker $'FEAT:\n\n' 2
+
+# Checker fails when header is invalid (no title).
+testCommitMessageChecker $'FEAT: \n\n' 2
+
 # Checker fails when there is no enough lines.
 testCommitMessageChecker $'FEAT: First' 3
 
