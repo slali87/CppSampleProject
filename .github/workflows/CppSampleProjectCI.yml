@@ -34,7 +34,6 @@ jobs:
           src/CppSampleProject
           test/CppSampleProjectTest
           ctest
-jobs:
   Windows:
     runs-on: windows-latest
     steps:
