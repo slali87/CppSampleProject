@@ -1,36 +1,36 @@
 name: CppSampleProject CI
-	on: [push, pull_request]
-	jobs:
-		linux:
-			runs-on: ubuntu-latest
-			steps:
-				- name: Resolve the dependencies
-						run: |
-							mkdir Deps
-							cd Deps
-							git clone https://github.com/google/googletest.git
-							cmake -S googletest -B googletest/build
-							cmake --build googletest/build
-							cd ..
-				- name: Create the Projects directory
-						run: mkdir Projects
-				- name: Checkout
-						uses: actions/checkout@v3
-							with:
-								path: Projects/CppSampleProject
-				- name: Set up the project
-						run: |
-							cd Projects/CppSampleProject
-							./setup.sh
-				- name: Build
-						run: |
-							cd Projects/CppSampleProject
-							cmake -B build
-							cd build
-							cmake --build .
-				- name: Run the application and the tests
-						run: |
-							cd Projects/CppSampleProject
-							src/CppSampleProject
-							test/CppSampleProjectTest
-							ctest
+on: [push, pull_request]
+jobs:
+	linux:
+		runs-on: ubuntu-latest
+		steps:
+			- name: Resolve the dependencies
+				run: |
+					mkdir Deps
+					cd Deps
+					git clone https://github.com/google/googletest.git
+					cmake -S googletest -B googletest/build
+					cmake --build googletest/build
+					cd ..
+			- name: Create the Projects directory
+				run: mkdir Projects
+			- name: Checkout
+				uses: actions/checkout@v3
+				with:
+					path: Projects/CppSampleProject
+			- name: Set up the project
+				run: |
+					cd Projects/CppSampleProject
+					./setup.sh
+			- name: Build
+				run: |
+					cd Projects/CppSampleProject
+					cmake -B build
+					cd build
+					cmake --build .
+			- name: Run the application and the tests
+				run: |
+					cd Projects/CppSampleProject
+					src/CppSampleProject
+					test/CppSampleProjectTest
+					ctest
