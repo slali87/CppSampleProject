@@ -66,4 +66,4 @@ jobs:
           cd Projects/CppSampleProject/build
           src/CppSampleProject
           test/CppSampleProjectTest
-          ctest
+          #ctest
