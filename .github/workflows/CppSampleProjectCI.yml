@@ -30,7 +30,7 @@ jobs:
           cmake --build .
       - name: Run the application and the tests
         run: |
-          cd Projects/CppSampleProject
+          cd Projects/CppSampleProject/build
           src/CppSampleProject
           test/CppSampleProjectTest
           ctest
