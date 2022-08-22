@@ -1,4 +1,4 @@
-name: "${{ github.event.repository.name }} CI"
+name: CI
 on: [push, pull_request]
 jobs:
   ${{ github.event.repository.name }}:
