@@ -1,7 +1,7 @@
-name: CppSampleProject CI
+name: "${{ github.event.repository.name }} CI"
 on: [push, pull_request]
 jobs:
-  CppSampleProject:
+  ${{ github.event.repository.name }}:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
@@ -34,20 +34,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          path: Projects/CppSampleProject
+          path: Projects/${{ github.event.repository.name }}
       - name: Set up the project
         run: |
-          cd Projects/CppSampleProject
+          cd Projects/${{ github.event.repository.name }}
           ./setup.${{ matrix.config.scriptExtension }}
       - name: Build
         run: |
-          cd Projects/CppSampleProject
+          cd Projects/${{ github.event.repository.name }}
           cmake -B build -G "${{ matrix.config.generator }}"
           cd build
           cmake --build .
       - name: Run the application and the tests
         run: |
-          cd Projects/CppSampleProject/build
-          src/CppSampleProject
-          test/CppSampleProjectTest
+          cd Projects/${{ github.event.repository.name }}/build
+          src/${{ github.event.repository.name }}
+          test/${{ github.event.repository.name }}Test
           ctest
