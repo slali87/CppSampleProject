@@ -1,15 +1,32 @@
 name: CppSampleProject CI
 on: [push, pull_request]
 jobs:
-  Linux:
-    runs-on: ubuntu-latest
+  CppSampleProject:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Linux",
+            os: ubuntu-latest
+          }
+        - {
+            name: "Windows",
+            os: windows-latest
+          }
     steps:
       - name: Resolve the dependencies
         run: |
           mkdir Deps
           cd Deps
-          git clone https://github.com/google/googletest.git
-          cmake -S googletest -B googletest/build
+          git clone https://github.com/google/googletest.git         
+          if ("${{ runner.os }}" STREQUAL "Linux")
+            cmake -S googletest -B googletest/build
+          elseif ("${{ runner.os }}" STREQUAL "Windows")
+            cmake -S googletest -B googletest/build -G "MinGW Makefiles"
+          endif()
           cmake --build googletest/build
           cd ..
       - name: Create the Projects directory
@@ -21,44 +38,19 @@ jobs:
       - name: Set up the project
         run: |
           cd Projects/CppSampleProject
-          ./setup.sh
+          if ("${{ runner.os }}" STREQUAL "Linux")
+            ./setup.sh
+          elseif ("${{ runner.os }}" STREQUAL "Windows")
+            ./setup.bat
+          endif()
       - name: Build
         run: |
           cd Projects/CppSampleProject
-          cmake -B build
-          cd build
-          cmake --build .
-      - name: Run the application and the tests
-        run: |
-          cd Projects/CppSampleProject/build
-          src/CppSampleProject
-          test/CppSampleProjectTest
-          ctest
-  Windows:
-    runs-on: windows-latest
-    steps:
-      - name: Resolve the dependencies
-        run: |
-          mkdir Deps
-          cd Deps
-          git clone https://github.com/google/googletest.git
-          cmake -S googletest -B googletest/build -G "MinGW Makefiles"
-          cmake --build googletest/build
-          cd ..
-      - name: Create the Projects directory
-        run: mkdir Projects
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          path: Projects/CppSampleProject
-      - name: Set up the project
-        run: |
-          cd Projects/CppSampleProject
-          ./setup.bat
-      - name: Build
-        run: |
-          cd Projects/CppSampleProject
-          cmake -B build -G "MinGW Makefiles"
+          if ("${{ runner.os }}" STREQUAL "Linux")
+            cmake -B build -G
+          elseif ("${{ runner.os }}" STREQUAL "Windows")
+            cmake -B build -G "MinGW Makefiles"
+          endif()
           cd build
           cmake --build .
       - name: Run the application and the tests
