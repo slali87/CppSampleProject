@@ -10,23 +10,23 @@ jobs:
         config:
         - {
             name: "Linux",
-            os: ubuntu-latest
+            os: ubuntu-latest,
+            scriptExtension: sh,
+            generator: "Unix Makefiles"
           }
         - {
             name: "Windows",
-            os: windows-latest
+            os: windows-latest,
+            scriptExtension: bat,
+            generator: "MinGW Makefiles"
           }
     steps:
       - name: Resolve the dependencies
         run: |
           mkdir Deps
           cd Deps
-          git clone https://github.com/google/googletest.git         
-          if ("${{ runner.os }}" STREQUAL "Linux")
-            cmake -S googletest -B googletest/build
-          elseif ("${{ runner.os }}" STREQUAL "Windows")
-            cmake -S googletest -B googletest/build -G "MinGW Makefiles"
-          endif()
+          git clone https://github.com/google/googletest.git
+          cmake -S googletest -B googletest/build -G "${{ matrix.config.generator }}"
           cmake --build googletest/build
           cd ..
       - name: Create the Projects directory
@@ -38,19 +38,11 @@ jobs:
       - name: Set up the project
         run: |
           cd Projects/CppSampleProject
-          if ("${{ runner.os }}" STREQUAL "Linux")
-            ./setup.sh
-          elseif ("${{ runner.os }}" STREQUAL "Windows")
-            ./setup.bat
-          endif()
+          ./setup.${{ matrix.config.scriptExtension }}
       - name: Build
         run: |
           cd Projects/CppSampleProject
-          if ("${{ runner.os }}" STREQUAL "Linux")
-            cmake -B build -G
-          elseif ("${{ runner.os }}" STREQUAL "Windows")
-            cmake -B build -G "MinGW Makefiles"
-          endif()
+          cmake -B build -G "${{ matrix.config.generator }}"
           cd build
           cmake --build .
       - name: Run the application and the tests
