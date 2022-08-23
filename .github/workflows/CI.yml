@@ -48,7 +48,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           cd Projects/${{ github.event.repository.name }}/tools/git/hooks
-          git log -1 --pretty=%B > ./commitMessage
+          git log --format=%B -n 1 ${{github.event.after}} > ./commitMessage
           ./commit-msg ./commitMessage
           rm ./commitMessage
       - name: Build
