@@ -1,3 +1,4 @@
 echo "Common Setup part"
 
 git config core.hooksPath ./tools/git/hooks
+git config commit.template ./tools/git/hooks/template_commit-msg

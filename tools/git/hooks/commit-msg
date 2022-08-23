@@ -1,62 +1,72 @@
 #!/bin/bash
 
-# Check if the header is not too long.
-HEADER=$(head -n 1 "$1")
-MAX_HEADER_LEN=50
-if [ ${#HEADER} -gt $MAX_HEADER_LEN ]; then
-    echo "Header of the commit message is longer than $MAX_HEADER_LEN characters!!!"
-    exit 1
-fi
+echo "The received commit message is:"
+echo "================================================================="
+cat $1
+echo "================================================================="
 
-# Check if the header is valid.
-PATTERN="^(FEAT|FIX|IMPR|TEST|TOOLS|DOCS): (.+)$"
-if ! echo "$HEADER" | grep -Eq "$PATTERN"; then
-    echo "Header of the commit message is invalid!!!"
-    echo "   $HEADER"
-    echo "Use the following format:"
-    echo "   TAG: Header message"
-    echo "The TAG must be one from the following list (the list is ordered by priority):"
-    echo "   FEAT: to add new feature to product code"
-    echo "   FIX: to fix a bug in product code"
-    echo "   IMPR: to improve, refactor, rewrite the product code"
-    echo "   TEST: to add test related changes"
-    echo "   TOOLS: to add tools related changes"
-    echo "   DOCS: to add documentation related changes"
-    echo "For example:" 
-    echo "   TOOLS: Add commit message checker"
-    exit 2
-fi
+# Read the file line by line (skip lines starting with '#')
+LINE_NUM=0
+while read LINE; do
+    if ! [ "${LINE:0:1}" = "#" ]; then
+        LINE_NUM=$(expr $LINE_NUM + 1)
+
+        # Remove the '\r' from the end (line end is \r\n on Windows)
+        if [ "${LINE: -1}" = $'\r' ]; then
+            LINE=${LINE::-1}
+        fi
+
+        # Check the header
+        if [ $LINE_NUM = 1 ]; then
+            # Check if the header is not too long.
+            MAX_HEADER_LEN=50
+            if [ ${#LINE} -gt $MAX_HEADER_LEN ]; then
+                echo "Header of the commit message is longer than $MAX_HEADER_LEN characters!!!"
+                exit 1
+            fi
+
+            # Check if the header is valid.
+            PATTERN="^(FEAT|FIX|IMPR|TEST|TOOLS|DOCS): (.+)$"
+            if ! echo "$LINE" | grep -Eq "$PATTERN"; then
+                echo "Header of the commit message is invalid!!!"
+                echo "   $LINE"
+                echo "Check the 'template_commit-msg' file for the valid format"
+                exit 2
+            fi
+        fi
+
+        # Check if the second line is empty.
+        if [ $LINE_NUM = 2 ]; then
+            if ! [ "$LINE" = "" ]; then
+                echo "The second line of the commit message is not empty!!!"
+                exit 4
+            fi
+        fi
+
+        # Check if the third line is not empty.
+        if [ $LINE_NUM = 3 ]; then
+            if [ "$LINE" = "" ]; then
+                echo "The third line of the commit message is empty!!!"
+                exit 5
+            fi
+        fi
+
+        # Check if commit message lines are not too long.
+        MAX_LINE_LEN=72
+        if [ ${#LINE} -gt $MAX_LINE_LEN ]; then
+            echo "Commit messages are limited to $MAX_LINE_LEN characters."
+            echo "The following commit message has ${#LINE} characters!!!"
+            echo "$LINE"
+            exit 6
+        fi
+    fi
+done < "$1"
 
 # Check if there is at least 3 lines.
-LINE_NUM=$(wc -l "$1" | awk '{print $1}')
 if [ $LINE_NUM -lt 3 ]; then
     echo "At least 3 lines (including the header and the empty second lines) needed!!!"
     exit 3
 fi
 
-# Check if the second line is empty.
-LINE2=$(head -n 2 "$1" | tail -1)
-if ! [ "$LINE2" = "" ]; then
-    echo "The second line of the commit message is not empty!!!"
-    exit 4
-fi
-
-# Check if the third line is not empty.
-LINE3=$(head -n 3 "$1" | tail -2)
-if [ "$LINE3" = "" ]; then
-    echo "The third line of the commit message is empty!!!"
-    exit 5
-fi
-
-# Check if commit message lines are not too long.
-MAX_LINE_LEN=72
-while read LINE; do
-    if [ ${#LINE} -gt $MAX_LINE_LEN ]; then
-        echo "Commit messages are limited to $MAX_LINE_LEN characters."
-        echo "The following commit message has ${#LINE} characters!!!"
-        echo "$LINE"
-        exit 6
-    fi
-done < "$1"
-
+echo "Commit message is valid."
 exit 0
