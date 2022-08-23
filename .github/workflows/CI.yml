@@ -1,0 +1,53 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  Verification:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Linux",
+            os: ubuntu-latest,
+            scriptExtension: sh,
+            generator: "Unix Makefiles"
+          }
+        - {
+            name: "Windows",
+            os: windows-latest,
+            scriptExtension: bat,
+            generator: "MinGW Makefiles"
+          }
+    steps:
+      - name: Resolve the dependencies
+        run: |
+          mkdir Deps
+          cd Deps
+          git clone https://github.com/google/googletest.git
+          cmake -S googletest -B googletest/build -G "${{ matrix.config.generator }}"
+          cmake --build googletest/build
+          cd ..
+      - name: Create the Projects directory
+        run: mkdir Projects
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: Projects/${{ github.event.repository.name }}
+      - name: Set up the project
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./setup.${{ matrix.config.scriptExtension }}
+      - name: Build
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          cmake -B build -G "${{ matrix.config.generator }}"
+          cd build
+          cmake --build .
+      - name: Run the application and the tests
+        run: |
+          cd Projects/${{ github.event.repository.name }}/build
+          src/${{ github.event.repository.name }}
+          test/${{ github.event.repository.name }}Test
+          ctest
