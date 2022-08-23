@@ -39,6 +39,11 @@ jobs:
         run: |
           cd Projects/${{ github.event.repository.name }}
           ./setup.${{ matrix.config.scriptExtension }}
+      - name: Test the commit message checker
+        if: runner.os == 'Linux'
+        run: |
+          cd Projects/${{ github.event.repository.name }}/tools/git/hooks
+          ./test_commit-msg
       - name: Build
         run: |
           cd Projects/${{ github.event.repository.name }}
