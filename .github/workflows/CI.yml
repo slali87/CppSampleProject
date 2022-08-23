@@ -45,10 +45,11 @@ jobs:
           cd Projects/${{ github.event.repository.name }}/tools/git/hooks
           ./test_commit-msg
       - name: Check the commit message
-        if: runner.os == 'Linux'
+        # on pull_request, available commit message is not found by the tried command
+        if: runner.os == 'Linux' && github.event_name != 'pull_request'
         run: |
           cd Projects/${{ github.event.repository.name }}/tools/git/hooks
-          git log --format=%B -n 1 ${{github.event.after}} > ./commitMessage
+          git log -1 --pretty=%B > ./commitMessage
           ./commit-msg ./commitMessage
           rm ./commitMessage
       - name: Build
