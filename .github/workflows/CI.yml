@@ -44,6 +44,13 @@ jobs:
         run: |
           cd Projects/${{ github.event.repository.name }}/tools/git/hooks
           ./test_commit-msg
+      - name: Check the commit message
+        if: runner.os == 'Linux'
+        run: |
+          cd Projects/${{ github.event.repository.name }}/tools/git/hooks
+          git log -1 --pretty=%B > ./commitMessage
+	        ./commit-msg ./commitMessage
+	        rm ./commitMessage
       - name: Build
         run: |
           cd Projects/${{ github.event.repository.name }}
