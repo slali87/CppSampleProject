@@ -1,0 +1,21 @@
+# Write the commit message according to the following rules!
+# - Header (first line) has to be <= 50 characters.
+# - Header has to be in the following format:
+#     TAG: Header message
+#     where the TAG must be one from the following list (the list is
+#      ordered by priority):
+#       FEAT: to add new feature to product code
+#       FIX: to fix a bug in product code
+#       IMPR: to improve, refactor, rewrite the product code
+#       TEST: to add test related changes
+#       TOOLS: to add tools related changes
+#       DOCS: to add documentation related changes
+#     For example:
+#       TOOLS: Add commit message checker
+# - Imperative mood should be used in the header.
+# - Header and other sentences should started with uppercase character.
+# - Commit message has to contain at least 3 lines.
+# - The second line has to be empty.
+# - The third line can not be empty. The body of the commit message has
+#    to start from here.
+# - Every line has to be <= 72 characters.
