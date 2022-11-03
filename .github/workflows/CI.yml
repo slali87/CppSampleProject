@@ -4,6 +4,9 @@ jobs:
   Verification:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
+    defaults:
+      run:
+        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -11,13 +14,11 @@ jobs:
         - {
             name: "Linux",
             os: ubuntu-latest,
-            scriptExtension: sh,
             generator: "Unix Makefiles"
           }
         - {
             name: "Windows",
             os: windows-latest,
-            scriptExtension: bat,
             generator: "MinGW Makefiles"
           }
     steps:
@@ -38,7 +39,7 @@ jobs:
       - name: Set up the project
         run: |
           cd Projects/${{ github.event.repository.name }}
-          ./setup.${{ matrix.config.scriptExtension }}
+          ./run.sh setup
       - name: Test the commit message checker
         if: runner.os == 'Linux'
         run: |

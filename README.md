@@ -101,11 +101,7 @@ cd CppSampleProject
 ### **Set up the project:**
 Move into the **CppSampleProject** folder and run:
 ```
-./setup.sh   #on Linux
-```
-or
-```
-./setup.bat   #on Windows
+./run.sh setup   #on Windows it should be run from git-bash or something like that
 ```
 
 ### **Steps of build:**
