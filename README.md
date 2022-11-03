@@ -2,7 +2,7 @@
 
 ## Welcome to **CppSampleProject**, the C++ sample project!
 
-This is a **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/) and **Bash** and **Batch** scripts.
+This is a **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/) and **Bash** script.
 
 ### **Structure of the project:**
 ```
@@ -79,17 +79,6 @@ The following programs have to be installed and directly available (added into P
 
 The **ProgrammingRepo** and **Projects** folders have to exist. Other folder names can be used without code modification.  
 
-### **Steps to resolve the dependencies:**
-Move into the **ProgrammingRepo** folder and run the following commands to create the **Deps** folder and fetch, build the **Google Test**:
-```
-mkdir Deps
-cd Deps
-git clone https://github.com/google/googletest.git
-cmake -S googletest -B googletest/build   # Specify the CMake generator if the default is not right!
-cmake --build googletest/build
-cd ..
-```
-
 ### **Clone the CppSampleProject:**
 Move into the **ProgrammingRepo** folder and run:
 ```
@@ -98,28 +87,52 @@ git clone https://github.com/slali87/CppSampleProject.git
 cd CppSampleProject
 ```
 
-### **Set up the project:**
-Move into the **CppSampleProject** folder and run:
+### **Customize the project:**
+Open the **build.config** file and edit it if it is needed.  
+\
+After that, move into the **CppSampleProject** folder and run the **run.sh** script with the following parameters.  
+On Windows, it should be run from git-bash or something like that.
+
+### **Steps to resolve the dependencies:**
 ```
-./run.sh setup   #on Windows it should be run from git-bash or something like that
+./run.sh deps
+```
+It creates the **Deps** folder and fetches, builds the **Google Test** if any of them is missing.
+
+### **Set up the project:**
+```
+./run.sh setup
 ```
 
 ### **Steps of build:**
-Move into the **CppSampleProject** folder and run:
 ```
-cmake -B build   # Specify the CMake generator if the default is not right!
-cd build
-cmake --build .
+./run.sh config
+./run.sh build
 ```
 
 ### **Commands of run:**
-Move into the **build** folder and run:
 ```
-src/CppSampleProject
-test/CppSampleProjectTest
-ctest
+./run.sh run
+./run.sh test
+cd ./build && ctest && cd -
 ```
 The first command runs the application, the second runs the tests.  
 The third runs the tests by **ctest**.
+
+### **Delete the build directory:**
+```
+./run.sh clean
+```
+
+### **Run all steps (including: deps, setup, config, build, run, test):**
+```
+./run.sh all
+```
+
+### **Command to create a patch from the last commit, and to apply it:**
+```
+./run.sh createPatch
+./run.sh applyPatch
+```
 
 ## **Happy developing!**
