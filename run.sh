@@ -20,17 +20,24 @@ function finish
 
 function getConfigValue
 {
-   configFile="./build.config"
    OS=$(uname)
-   local value
-
    PATTERN="Linux"
    if echo "$OS" | grep -Eq "$PATTERN"; then
-      value=$(grep -Po "(?<=^\"$1 - Linux\",).*" $configFile)
+      search="\"$1 - Linux\""
    else
-      value=$(grep -Po "(?<=^\"$1 - Windows\",).*" $configFile)
+      search="\"$1 - Windows\""
    fi
-   echo $"${value//\"}"
+
+   configFile="./build.config"
+   local result
+   while IFS=, read -r key value; do
+      if [ "$key" = "$search" ]; then
+         result="$value"
+         break
+      fi
+   done < "$configFile"
+
+   echo $"${result//\"}"
 }
 
 function solveDependecies
