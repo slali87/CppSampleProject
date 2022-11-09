@@ -4,41 +4,36 @@ jobs:
   Verification:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
+    defaults:
+      run:
+        shell: bash
     strategy:
       fail-fast: false
       matrix:
         config:
         - {
             name: "Linux",
-            os: ubuntu-latest,
-            scriptExtension: sh,
-            generator: "Unix Makefiles"
+            os: ubuntu-latest
           }
         - {
             name: "Windows",
-            os: windows-latest,
-            scriptExtension: bat,
-            generator: "MinGW Makefiles"
+            os: windows-latest
           }
     steps:
-      - name: Resolve the dependencies
-        run: |
-          mkdir Deps
-          cd Deps
-          git clone https://github.com/google/googletest.git
-          cmake -S googletest -B googletest/build -G "${{ matrix.config.generator }}"
-          cmake --build googletest/build
-          cd ..
       - name: Create the Projects directory
         run: mkdir Projects
       - name: Checkout
         uses: actions/checkout@v3
         with:
           path: Projects/${{ github.event.repository.name }}
+      - name: Resolve the dependencies
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh deps
       - name: Set up the project
         run: |
           cd Projects/${{ github.event.repository.name }}
-          ./setup.${{ matrix.config.scriptExtension }}
+          ./run.sh setup
       - name: Test the commit message checker
         if: runner.os == 'Linux'
         run: |
@@ -55,12 +50,11 @@ jobs:
       - name: Build
         run: |
           cd Projects/${{ github.event.repository.name }}
-          cmake -B build -G "${{ matrix.config.generator }}"
-          cd build
-          cmake --build .
+          ./run.sh config
+          ./run.sh build
       - name: Run the application and the tests
         run: |
-          cd Projects/${{ github.event.repository.name }}/build
-          src/${{ github.event.repository.name }}
-          test/${{ github.event.repository.name }}Test
-          ctest
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh run
+          ./run.sh test
+          cd ./build && ctest && cd -
