@@ -2,7 +2,7 @@
 
 ## Welcome to **CppSampleProject**, the C++ sample project!
 
-This is a **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/) and **Bash** script.
+This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/) and **Bash** script.
 
 ### **Structure of the project:**
 ```
@@ -63,7 +63,7 @@ ProgrammingRepo
 
 `*` ***Please note*** that the folders - marked with `*` - are not part of this **Git** repository!  
 The **ProgrammingRepo** and **Projects** folders are [*prerequisites*](#prerequisites).  
-The **Deps** will be created explicitly in part [*Steps to resolve the dependencies*](#steps-to-resolve-the-dependencies).  
+The **Deps** will be created implicitly in part [*Steps to resolve the dependencies*](#steps-to-resolve-the-dependencies).  
 The **build** will be created implicitly in part [*Steps of build*](#steps-of-build).
 
 ### **Operating Systems:**
@@ -129,7 +129,14 @@ The third runs the tests by **ctest**.
 ./run.sh all
 ```
 
-### **Command to create a patch from the last commit, and to apply it:**
+### **Commands to switch betwen Release and Debug mode:**
+```
+./run.sh setRel
+./run.sh setDeb
+```
+The default mode is Release.
+
+### **Commands to create a patch from the last commit, and to apply it:**
 ```
 ./run.sh createPatch
 ./run.sh applyPatch

@@ -64,12 +64,13 @@ function solveDependecies
       cmakeGen=$(getConfigValue "CMake generator")
       cd -
       echo The generator is: $cmakeGen
+
+      command="cmake -S googletest -B googletest/build"
       if [ ${#cmakeGen} -gt 0 ]; then
-         cmake -S googletest -B googletest/build "-G $cmakeGen"
-      else
-         cmake -S googletest -B googletest/build
+         command="$command -G \"$cmakeGen\""
       fi
-      cmake --build googletest/build
+      eval $command
+      cmake --build googletest/build -j 10
    fi
    error=$?
    cd -
@@ -93,30 +94,32 @@ function configure
    cmakeGen=$(getConfigValue "CMake generator")
    echo The generator is: $cmakeGen
 
+   command="cmake -B build/$buildType -DCMAKE_BUILD_TYPE:STRING=$buildType"
    if [ ${#cmakeGen} -gt 0 ]; then
-      cmake -B build "-G $cmakeGen"
-   else
-      cmake -B build
+      command="$command -G \"$cmakeGen\""
    fi
-   return $?
+   eval $command
+   error=$?
+
+   grep "CXX_FLAGS = " ./build/ -r
+   (( error |= $? ))
+
+   return $error
 }
 
 function build
 {
    echo "Build the project"
 
-   cd build
-   cmake --build .
-   error=$?
-   cd -
-   return $error
+   cmake --build ./build/"$buildType" --config "$buildType" -j 10
+   return $?
 }
 
 function run
 {
    echo "Run the application"
 
-   ./build/src/CppSampleProject
+   ./build/"$buildType"/src/CppSampleProject
    return $?
 }
 
@@ -124,7 +127,7 @@ function test
 {
    echo "Run the test"
 
-   ./build/test/CppSampleProjectTest
+   ./build/"$buildType"/test/CppSampleProjectTest
    return $?
 }
 
@@ -133,6 +136,22 @@ function clean
    echo "Clean the build"
 
    rm -rf ./build
+   return $?
+}
+
+function setBuildType
+{
+   echo "Set build type to $1"
+
+   DIR="./build"
+   if [ -d "$DIR" ]; then
+      echo "Directory: $DIR already exists."
+   else
+      echo "Create directory: $DIR."
+      mkdir "$DIR"
+   fi
+   echo "$1" > "$DIR/BuildType"
+
    return $?
 }
 
@@ -154,7 +173,11 @@ function applyPatch
 
 function runTheJob
 {
-   if [ $1 = "deps" ]; then
+   if [ $1 = "setRel" ]; then
+      setBuildType "Release"
+   elif [ $1 = "setDeb" ]; then
+      setBuildType "Debug"
+   elif [ $1 = "deps" ]; then
       solveDependecies
    elif [ $1 = "setup" ]; then
       runSetup
@@ -186,10 +209,20 @@ function runTheJob
    return $?
 }
 
+function readBuildType
+{
+   buildType=$(head -n 1 ./build/BuildType)
+   if [ ${#buildType} -eq 0 ]; then
+      buildType="Release"
+   fi
+   echo The current build type is: $buildType
+}
+
 echo "Run is starting..."
 echo "The received parameter is \"$1\"."
 
 if [ $# -eq 1 ]; then
+   readBuildType
    runTheJob $1
    finish $?
 else
