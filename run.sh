@@ -119,7 +119,7 @@ function run
 {
    echo "Run the application"
 
-   ./build/"$buildType"/src/CppSampleProject
+   ./build/"$buildType"/src/$(basename $(pwd))
    return $?
 }
 
@@ -127,7 +127,7 @@ function test
 {
    echo "Run the test"
 
-   ./build/"$buildType"/test/CppSampleProjectTest
+   ./build/"$buildType"/test/$(basename $(pwd))Test
    return $?
 }
 
