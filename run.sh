@@ -171,6 +171,19 @@ function applyPatch
    return $?
 }
 
+function runValgrind
+{
+   echo "Run Valgrind"
+
+   if ! [ -f "./build/Debug/src/CppSampleProject" ]; then
+      echo "Debug executable is not found"
+      return 1
+   fi
+   
+   valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./build/Debug/src/$(basename $(pwd))
+   return $?
+}
+
 function runTheJob
 {
    if [ $1 = "setRel" ]; then
@@ -202,6 +215,8 @@ function runTheJob
       createPatch
    elif [ $1 = "applyPatch" ]; then
       applyPatch
+   elif [ $1 = "valgrind" ]; then
+      runValgrind
    else
       finish 1 "The parameter is wrong!"
    fi

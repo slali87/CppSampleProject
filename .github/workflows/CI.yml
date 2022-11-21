@@ -58,3 +58,11 @@ jobs:
           ./run.sh run
           ./run.sh test
           cd ./build && ctest && cd -
+      - name: Run Valgrind
+        if: runner.os == 'Linux'
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh setDeb
+          ./run.sh config
+          ./run.sh build
+          ./run.sh valgrind
