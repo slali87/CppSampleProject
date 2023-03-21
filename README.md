@@ -2,7 +2,7 @@
 
 ## Welcome to **CppSampleProject**, the C++ sample project!
 
-This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/), **Bash** script and [**Valgrind**](https://valgrind.org/).
+This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/), **Bash** script, [**Valgrind**](https://valgrind.org/), [**LCOV Code Coverage**](https://wiki.documentfoundation.org/Development/Lcov).
 
 ### **Structure of the project:**
 ```
@@ -140,7 +140,18 @@ The default mode is Release.
 ```
 ./run.sh valgrind
 ```
-The debug version of the executable must be built.
+The **Valgrind** program has to be available on the machine.  
+The debug version of the executable has to be built.
+
+### **Command to measure the code coverage:**
+```
+./run.sh testCov
+```
+The **LCOV Code Coverage** program has to be available on the machine.  
+The report will be saved into the **build** directory; the main file is "./build/TestCov/CodeCoverage/index.html".  
+***Please note***:  
+    - It detects that each Google test`s TEST macro runs multiple times, instead of 1.  
+    - The test files are also checked by design to detect if all tests are run and there is no dead code in the test part; but the branch coverage is not applicable for the tests. 
 
 ### **Commands to create a patch from the last commit, and to apply it:**
 ```

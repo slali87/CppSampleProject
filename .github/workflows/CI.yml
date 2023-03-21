@@ -67,3 +67,9 @@ jobs:
           ./run.sh config
           ./run.sh build
           ./run.sh valgrind
+      - name: Test coverage
+        if: runner.os == 'Linux'
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          sudo apt install lcov
+          ./run.sh tectCoverage
