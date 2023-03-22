@@ -91,13 +91,28 @@ function configure
 {
    echo "Configure CMake"
 
+   if [ "$1" = "TestCov" ]; then
+      buildDir=$1
+   else
+      buildDir=$buildType
+   fi
+
+   command="cmake -B build/$buildDir"
+
+   if [ "$1" = "TestCov" ]; then
+      command="$command -DCODE_COVERAGE=ON"
+   else
+      command="$command -DCMAKE_BUILD_TYPE:STRING=$buildType"
+   fi
+
    cmakeGen=$(getConfigValue "CMake generator")
    echo The generator is: $cmakeGen
 
-   command="cmake -B build/$buildType -DCMAKE_BUILD_TYPE:STRING=$buildType"
    if [ ${#cmakeGen} -gt 0 ]; then
       command="$command -G \"$cmakeGen\""
    fi
+
+   echo Running: $command
    eval $command
    error=$?
 
@@ -111,7 +126,22 @@ function build
 {
    echo "Build the project"
 
-   cmake --build ./build/"$buildType" --config "$buildType" -j 10
+   if [ "$1" = "TestCov" ]; then
+      buildDir=$1
+   else
+      buildDir=$buildType
+   fi
+
+   command="cmake --build ./build/$buildDir"
+
+   if ! [ "$1" = "TestCov" ]; then
+      command="$command --config $buildType"
+   fi
+   command="$command -j 10"
+
+   echo Running: $command
+   eval $command
+
    return $?
 }
 
@@ -175,13 +205,49 @@ function runValgrind
 {
    echo "Run Valgrind"
 
-   if ! [ -f "./build/Debug/src/CppSampleProject" ]; then
+   if ! [ -f "./build/Debug/src/$(basename $(pwd))" ]; then
       echo "Debug executable is not found"
       return 1
    fi
    
    valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./build/Debug/src/$(basename $(pwd))
    return $?
+}
+
+function testCoverage
+{
+   configure "TestCov"
+   error=$?
+   build "TestCov"
+   (( error |= $? ))
+
+   executableName=$(basename $(pwd))
+   cd ./build/TestCov
+	lcov --capture --initial --rc lcov_branch_coverage=1 --directory . --output-file lcovResultBefore
+	src/"$executableName"	# Run the program because the main function of the App is not tested.
+	test/"$executableName"Test
+	lcov --capture --rc lcov_branch_coverage=1 --directory . --output-file lcovResultAfter
+	lcov --rc lcov_branch_coverage=1 --add-tracefile lcovResultBefore --add-tracefile lcovResultAfter --output-file lcovResultCombined
+	lcov --remove --rc lcov_branch_coverage=1 lcovResultCombined '/usr/*' '*/Deps/*' -o lcovResult
+	genhtml lcovResult --rc genhtml_branch_coverage=1 --output-directory CodeCoverage > log
+   (( error |= $? ))
+
+   if ! grep -Eq "lines\.*: 100.0%" ./log; then
+      return 1
+   elif ! grep -Eq "functions\.*: 100.0%" ./log; then
+      return 1
+   fi
+
+   # Remove the test files before check the branches because measuring of branches is not applicable for them.
+   lcov --remove --rc lcov_branch_coverage=1 lcovResult '*/test/*' -o lcovResultNoTest
+	genhtml lcovResultNoTest --rc genhtml_branch_coverage=1 --output-directory CodeCoverageNoTest > logNoTest
+
+   # Search for no data since currently there are no any branches in the code.
+   if ! grep -Eq "branches\.*: no data found" ./logNoTest; then
+      return 1
+   fi
+
+   return $error
 }
 
 function runTheJob
@@ -217,6 +283,8 @@ function runTheJob
       applyPatch
    elif [ $1 = "valgrind" ]; then
       runValgrind
+   elif [ $1 = "testCov" ]; then
+      testCoverage
    else
       finish 1 "The parameter is wrong!"
    fi
