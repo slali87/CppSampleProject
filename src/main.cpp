@@ -2,5 +2,5 @@
 
 int main()
 {
-    return App{}.main();
+    return App{}.main2();
 }

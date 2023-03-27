@@ -4,7 +4,7 @@
 class App
 {
 public:
-   int main();
+   int main2();
 };
 
 #endif // APP_H

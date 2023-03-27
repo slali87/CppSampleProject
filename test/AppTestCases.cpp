@@ -6,7 +6,7 @@
 TEST(AppTestSuite, testMain_Return0)
 {
     App app;
-    auto returnValue { app.main() };
+    auto returnValue { app.main2() };
 
     EXPECT_EQ(returnValue, 0);
 }

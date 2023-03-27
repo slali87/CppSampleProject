@@ -7,7 +7,7 @@ using std::cout;
 
 // Silence because meber function is used by desing since it is a demo code
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
-int App::main()
+int App::main2()
 {
    cout << "Hello World!\n";
    cout << Lib{}.helloWorld() << "\n";
