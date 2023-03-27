@@ -102,7 +102,7 @@ function configure
    if [ "$1" = "TestCov" ]; then
       command="$command -DCODE_COVERAGE=ON"
    else
-      command="$command -DCMAKE_BUILD_TYPE:STRING=$buildType"
+      command="$command -DCMAKE_BUILD_TYPE:STRING=$buildType -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
    fi
 
    cmakeGen=$(getConfigValue "CMake generator")
@@ -250,6 +250,21 @@ function testCoverage
    return $error
 }
 
+function analyseCode
+{
+   # Find all cpp and header files
+   find . -path ./build -prune -o -type f \( -name "*.cpp" -o -name "*.h" \) -print > files
+   error=$?
+   while IFS= read -r file; do
+      echo " --- Checking file: $file --- "
+      clang-tidy "$file" -p ./build/"$buildType"/
+      (( error |= $? ))
+   done < ./files
+
+   rm files
+   return $error
+}
+
 function runTheJob
 {
    if [ $1 = "setRel" ]; then
@@ -285,6 +300,8 @@ function runTheJob
       runValgrind
    elif [ $1 = "testCov" ]; then
       testCoverage
+   elif [ $1 = "analyseCode" ]; then
+      analyseCode
    else
       finish 1 "The parameter is wrong!"
    fi

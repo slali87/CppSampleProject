@@ -73,3 +73,7 @@ jobs:
           cd Projects/${{ github.event.repository.name }}
           sudo apt install lcov
           ./run.sh testCov
+      - name: Analyse the code
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh analyseCode
