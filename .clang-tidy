@@ -1,0 +1,4 @@
+---
+Checks:          '*,-modernize-use-trailing-return-type,-llvm-header-guard,-google-readability-avoid-underscore-in-googletest-name,-llvmlibc*'
+WarningsAsErrors: '*'
+...
