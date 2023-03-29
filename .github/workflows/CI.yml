@@ -85,4 +85,8 @@ jobs:
       - name: Create the document
         run: |
           cd Projects/${{ github.event.repository.name }}
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt install doxygen
+            sudo apt install graphviz
+          fi
           ./run.sh doc
