@@ -252,16 +252,26 @@ function testCoverage
 
 function analyseCode
 {
-   # Find all cpp and header files
-   find . -path ./build -prune -o -type f \( -name "*.cpp" -o -name "*.h" \) -print > files
-   error=$?
-   while IFS= read -r file; do
-      echo " --- Checking file: $file --- "
-      clang-tidy "$file" -p ./build/"$buildType"/
-      (( error |= $? ))
-   done < ./files
+   find . -path ./build -prune -o -regex '.*\.\(cpp\|h\)' -exec echo " --- Checking file: {} --- " \; -exec clang-tidy {} -p ./build/"$buildType"/ \;
+   return $?
+}
 
-   rm files
+function formatCode
+{
+   # Check if there is any modified files
+   numBefore=$(git diff --shortstat | tr -dc '0-9');
+
+   find . -path ./build -prune -o -regex '.*\.\(cpp\|h\)' -exec clang-format -style=file -i {} \;
+   error=$?
+
+   # Check if there is any modified files
+   numAfter=$(git diff --shortstat | tr -dc '0-9');
+
+   if ! [ "$numBefore" = "$numAfter" ]; then
+      echo "There is modified file. Check them!!!"
+      error=1
+   fi
+
    return $error
 }
 
@@ -302,6 +312,8 @@ function runTheJob
       testCoverage
    elif [ $1 = "analyseCode" ]; then
       analyseCode
+   elif [ $1 = "formatCode" ]; then
+      formatCode
    else
       finish 1 "The parameter is wrong!"
    fi

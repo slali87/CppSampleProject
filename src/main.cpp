@@ -1,6 +1,3 @@
 #include "App.h"
 
-int main()
-{
-    return App{}.main();
-}
+int main() { return App{}.main(); }
