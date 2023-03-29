@@ -275,6 +275,19 @@ function formatCode
    return $error
 }
 
+function doc
+{
+   doxygen Doxyfile
+   error=$?
+   # Remove unwanted 'strong' html tags from the results, Doxygen puts them for some reason...
+   sed -i -e 's/\(&lt;strong&gt;\|&lt;\/strong&gt;\|<strong>\|<\/strong>\)//g' ./build/Doc/html/index.html \
+      ./build/Doc/html/navtreedata.js \
+      ./build/Doc/html/search/pages_0.js \
+      ./build/Doc/html/search/all_0.js
+   (( error |= $? ))
+   return $error
+}
+
 function runTheJob
 {
    if [ $1 = "setRel" ]; then
@@ -314,6 +327,8 @@ function runTheJob
       analyseCode
    elif [ $1 = "formatCode" ]; then
       formatCode
+   elif [ $1 = "doc" ]; then
+      doc
    else
       finish 1 "The parameter is wrong!"
    fi
