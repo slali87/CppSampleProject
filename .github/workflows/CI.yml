@@ -78,3 +78,7 @@ jobs:
         run: |
           cd Projects/${{ github.event.repository.name }}
           ./run.sh analyseCode
+      - name: Format the code
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh formatCode
