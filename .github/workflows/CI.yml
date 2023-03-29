@@ -82,3 +82,7 @@ jobs:
         run: |
           cd Projects/${{ github.event.repository.name }}
           ./run.sh formatCode
+      - name: Create the document
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh doc
