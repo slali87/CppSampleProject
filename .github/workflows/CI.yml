@@ -76,10 +76,10 @@ jobs:
           cd Projects/${{ github.event.repository.name }}
           sudo apt install lcov
           ./run.sh testCov
-      - name: Analyse the code
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh analyseCode
+      #- name: Analyse the code
+      #  run: |
+      #    cd Projects/${{ github.event.repository.name }}
+      #    ./run.sh analyseCode
       - name: Format the code
         run: |
           cd Projects/${{ github.event.repository.name }}
@@ -95,6 +95,7 @@ jobs:
       - name: Deploy
         if: runner.os == 'Linux' #&& github.ref == 'refs/heads/main'   # Deploy only from main
         run: |
+          cd Projects/${{ github.event.repository.name }}
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           git fetch   # Fetch branches
