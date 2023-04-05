@@ -149,6 +149,7 @@ The debug version of the executable has to be built.
 ```
 The **LCOV Code Coverage** program has to be available on the machine.  
 The report will be saved into the **build** directory; the main file is "./build/TestCov/CodeCoverage/index.html".  
+Online the code coverage of the latest version can be found here: [**Code coverage**](https://slali87.github.io/CppSampleProject/CodeCoverage/).  
 ***Please note***:  
     - It detects that each Google test`s TEST macro runs multiple times, instead of 1.  
     - The test files are also checked by design to detect if all tests are run and there is no dead code in the test part; but the branch coverage is not applicable for the tests. 
@@ -171,7 +172,8 @@ The **ClangFormat** program has to be available on the machine.
 ./run.sh doc
 ```
 The **Doxygen** and the **Graphviz** programs have to be available on the machine.  
-The doc will be saved into the **build** directory; the main file is "./build/Doc/html/index.html".
+The doc will be saved into the **build** directory; the main file is "./build/Doc/html/index.html".  
+Online the documentation about the latest version can be found here: [**Documentation**](https://slali87.github.io/CppSampleProject/).
 
 ### **Commands to create a patch from the last commit, and to apply it:**
 ```
