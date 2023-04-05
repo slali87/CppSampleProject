@@ -1,0 +1,4 @@
+<map id="HelloWorld" name="HelloWorld">
+<area shape="rect" id="node1" title="The HelloWorld implementation." alt="" coords="7,80,101,107"/>
+<area shape="rect" id="node2" href="$classIHelloWorld.html" title="The IHelloWorld interface." alt="" coords="5,5,103,32"/>
+</map>
