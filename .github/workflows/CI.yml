@@ -93,7 +93,7 @@ jobs:
           fi
           ./run.sh doc
       - name: Deploy
-        if: runner.os == 'Linux' && #github.ref == 'refs/heads/main'   # Deploy only from main
+        if: runner.os == 'Linux' #&& github.ref == 'refs/heads/main'   # Deploy only from main
         run: |
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
