@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['test_0',['test',['../appTest_8cpp.html#aa48ac0e4eba9ac7c5ae273d18639c09b',1,'TEST(AppTestSuite, testMain_Return0):&#160;appTest.cpp'],['../appTest_8cpp.html#a20d036e0f10b88626fa5df11419b59ea',1,'TEST(AppTestSuite, testMain_CallCreateUpperString):&#160;appTest.cpp'],['../libTest_8cpp.html#ab4cea90b3139d0049c35d55036f1cc73',1,'TEST(LibTestSuite, testCreateUpperString_ReturnExpectedString):&#160;libTest.cpp']]],
+  ['test_20_3a_20strong_1',['&lt;strong&gt;Run all steps (including: deps, setup, config, build, run, test):&lt;/strong&gt;',['../index.html#autotoc_md10',1,'']]],
+  ['test_20list_2',['Test List',['../test.html',1,'']]],
+  ['the_20build_20directory_3a_20strong_3',['&lt;strong&gt;Delete the build directory:&lt;/strong&gt;',['../index.html#autotoc_md9',1,'']]],
+  ['the_20c_20sample_20project_4',['Welcome to &lt;strong&gt;CppSampleProject&lt;/strong&gt;, the C++ sample project!',['../index.html#autotoc_md1',1,'']]],
+  ['the_20code_20coverage_3a_20strong_5',['&lt;strong&gt;Command to measure the code coverage:&lt;/strong&gt;',['../index.html#autotoc_md13',1,'']]],
+  ['the_20code_3a_20strong_6',['the code: strong',['../index.html#autotoc_md14',1,'&lt;strong&gt;Command to analyse the code:&lt;/strong&gt;'],['../index.html#autotoc_md15',1,'&lt;strong&gt;Command to format the code:&lt;/strong&gt;']]],
+  ['the_20cppsampleproject_3a_20strong_7',['&lt;strong&gt;Clone the CppSampleProject:&lt;/strong&gt;',['../index.html#autotoc_md5',1,'']]],
+  ['the_20dependencies_20and_20set_20up_20the_20project_3a_20strong_8',['&lt;strong&gt;Steps to resolve the dependencies and set up the project:&lt;/strong&gt;',['../index.html#autotoc_md6',1,'']]],
+  ['the_20document_3a_20strong_9',['&lt;strong&gt;Command to create the document:&lt;/strong&gt;',['../index.html#autotoc_md16',1,'']]],
+  ['the_20last_20commit_20and_20to_20apply_20it_3a_20strong_10',['&lt;strong&gt;Commands to create a patch from the last commit, and to apply it:&lt;/strong&gt;',['../index.html#autotoc_md18',1,'']]],
+  ['the_20project_20only_20the_20major_20files_20are_20listed_20_3a_20strong_11',['&lt;strong&gt;Structure of the project (only the major files are listed):&lt;/strong&gt;',['../index.html#autotoc_md2',1,'']]],
+  ['to_20analyse_20the_20code_3a_20strong_12',['&lt;strong&gt;Command to analyse the code:&lt;/strong&gt;',['../index.html#autotoc_md14',1,'']]],
+  ['to_20check_20complexity_3a_20strong_13',['&lt;strong&gt;Command to check complexity:&lt;/strong&gt;',['../index.html#autotoc_md17',1,'']]],
+  ['to_20create_20a_20patch_20from_20the_20last_20commit_20and_20to_20apply_20it_3a_20strong_14',['&lt;strong&gt;Commands to create a patch from the last commit, and to apply it:&lt;/strong&gt;',['../index.html#autotoc_md18',1,'']]],
+  ['to_20create_20the_20document_3a_20strong_15',['&lt;strong&gt;Command to create the document:&lt;/strong&gt;',['../index.html#autotoc_md16',1,'']]],
+  ['to_20format_20the_20code_3a_20strong_16',['&lt;strong&gt;Command to format the code:&lt;/strong&gt;',['../index.html#autotoc_md15',1,'']]],
+  ['to_20measure_20the_20code_20coverage_3a_20strong_17',['&lt;strong&gt;Command to measure the code coverage:&lt;/strong&gt;',['../index.html#autotoc_md13',1,'']]],
+  ['to_20resolve_20the_20dependencies_20and_20set_20up_20the_20project_3a_20strong_18',['&lt;strong&gt;Steps to resolve the dependencies and set up the project:&lt;/strong&gt;',['../index.html#autotoc_md6',1,'']]],
+  ['to_20run_20valgrind_3a_20strong_19',['&lt;strong&gt;Command to run Valgrind:&lt;/strong&gt;',['../index.html#autotoc_md12',1,'']]],
+  ['to_20strong_20cppsampleproject_20strong_20the_20c_20sample_20project_20',['Welcome to &lt;strong&gt;CppSampleProject&lt;/strong&gt;, the C++ sample project!',['../index.html#autotoc_md1',1,'']]],
+  ['to_20switch_20betwen_20release_20and_20debug_20mode_3a_20strong_21',['&lt;strong&gt;Commands to switch betwen Release and Debug mode:&lt;/strong&gt;',['../index.html#autotoc_md11',1,'']]],
+  ['todo_22',['ToDo',['../md_ToDo.html',1,'']]],
+  ['todo_2emd_23',['ToDo.md',['../ToDo_8md.html',1,'']]]
+];

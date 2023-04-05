@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classlib_1_1ILib.html" title="An template interface for libraries." alt="" coords="5,31,75,56"/>
+<area shape="rect" id="Node000001" href="$classlib_1_1Lib.html" title="The Lib implementation." alt="" coords="140,5,205,31"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="88,32,139,22,140,27,89,37"/>
+<area shape="rect" id="Node000002" href="$classlib_1_1LibMock.html" title="A mock of ILib." alt="" coords="123,55,223,80"/>
+<area shape="poly" id="edge3_Node000000_Node000002" title=" " alt="" coords="88,49,123,56,122,61,87,55"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="lib::ILib" name="lib::ILib">
+<area shape="rect" id="Node000001" title="An template interface for libraries." alt="" coords="57,5,126,31"/>
+<area shape="rect" id="Node000002" href="$classlib_1_1Lib.html" title="The Lib implementation." alt="" coords="5,79,71,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,43,49,80,45,77,72,40"/>
+<area shape="rect" id="Node000003" href="$classlib_1_1LibMock.html" title="A mock of ILib." alt="" coords="95,79,195,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,40,138,77,134,80,106,43"/>
+</map>

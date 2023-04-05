@@ -1,0 +1,14 @@
+var annotated_dup =
+[
+    [ "app", "namespaceapp.html", [
+      [ "App", "classapp_1_1App.html", "classapp_1_1App" ]
+    ] ],
+    [ "conanfile", "namespaceconanfile.html", [
+      [ "ConanTrialRecipe", "classconanfile_1_1ConanTrialRecipe.html", "classconanfile_1_1ConanTrialRecipe" ]
+    ] ],
+    [ "lib", "namespacelib.html", [
+      [ "ILib", "classlib_1_1ILib.html", "classlib_1_1ILib" ],
+      [ "Lib", "classlib_1_1Lib.html", "classlib_1_1Lib" ],
+      [ "LibMock", "classlib_1_1LibMock.html", "classlib_1_1LibMock" ]
+    ] ]
+];
