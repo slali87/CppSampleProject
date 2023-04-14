@@ -74,10 +74,10 @@ jobs:
           cd Projects/${{ github.event.repository.name }}
           sudo apt install lcov
           ./run.sh testCov
-      #- name: Analyse the code
-      #  run: |
-      #    cd Projects/${{ github.event.repository.name }}
-      #    ./run.sh analyseCode
+      - name: Analyse the code
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh analyseCode
       - name: Format the code
         run: |
           cd Projects/${{ github.event.repository.name }}
@@ -101,7 +101,7 @@ jobs:
           retention-days: 1
   UploadToGHpages:
     name: UploadToGHpages
-    if: success() #&& github.ref == 'refs/heads/main'   # Upload only from main
+    if: success() && github.ref == 'refs/heads/main'   # Upload only from main
     needs: [Verification]
     runs-on: ubuntu-latest
     strategy:
@@ -113,19 +113,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: gh-pages
-      - name: List 1
-        run: |
-          pwd
-          ls -la
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: artifacts
           path: ./Tmp
-      - name: List 2
-        run: |
-          pwd
-          ls -la
       - name: Upload
         run: |
           git config user.email "githubaction@users.noreply.github.com"
