@@ -121,7 +121,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: artifacts
-          path: .
+          path: ./Tmp
       - name: List 2
         run: |
           pwd
@@ -131,8 +131,8 @@ jobs:
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           rm -rf Doc CodeCoverage
-          mv Projects/${{ github.event.repository.name }}/build/Doc/html Doc
-          mv Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage CodeCoverage
+          mv Tmp/Doc/html Doc
+          mv Tmp/TestCov/CodeCoverage CodeCoverage
           git add Doc/ CodeCoverage/
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
           git push --force
