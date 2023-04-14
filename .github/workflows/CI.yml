@@ -1,12 +1,12 @@
 name: CI
 on: [push, pull_request]
+defaults:
+  run:
+    shell: bash
 jobs:
   Verification:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
-    defaults:
-      run:
-        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -90,3 +90,41 @@ jobs:
             sudo apt install graphviz
           fi
           ./run.sh doc
+      - name: Upload artifacts
+        if: runner.os == 'Linux'
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: |
+            Projects/${{ github.event.repository.name }}/build/Doc/html
+            Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage
+          retention-days: 1
+  UploadToGHpages:
+    name: UploadToGHpages
+    if: success() && github.ref == 'refs/heads/main'   # Upload only from main
+    needs: [Verification]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    permissions:
+      contents: write  # Add to push to a branch
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: ./Tmp
+      - name: Upload
+        run: |
+          git config user.email "githubaction@users.noreply.github.com"
+          git config user.name "GitHub Action"
+          rm -rf Doc CodeCoverage
+          mv Tmp/Doc/html Doc
+          mv Tmp/TestCov/CodeCoverage CodeCoverage
+          git add Doc/ CodeCoverage/
+          git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
+          git push --force
