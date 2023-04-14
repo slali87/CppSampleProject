@@ -1,12 +1,12 @@
 name: CI
 on: [push, pull_request]
+defaults:
+  run:
+    shell: bash
 jobs:
   Verification:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
-    defaults:
-      run:
-        shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -19,8 +19,6 @@ jobs:
             name: "Windows",
             os: windows-latest
           }
-    permissions:
-      contents: write  # Add to push to a branch (to deploy)
     steps:
       - name: Create the Projects directory
         run: mkdir Projects
@@ -92,17 +90,40 @@ jobs:
             sudo apt install graphviz
           fi
           ./run.sh doc
-      - name: Deploy
-        if: runner.os == 'Linux' #&& github.ref == 'refs/heads/main'   # Deploy only from main
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: |
+            Projects/${{ github.event.repository.name }}/build/Doc/html
+            Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage
+          retention-days: 1
+  UploadToGHpages:
+    name: UploadToGHpages
+    if: success() && github.ref == 'refs/heads/main'   # Upload only from main
+    needs: [Verification]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    permissions:
+      contents: write  # Add to push to a branch
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: .
+      - name: Upload
         run: |
-          cd Projects/${{ github.event.repository.name }}
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
-          git fetch   # Fetch branches
-          git checkout gh-pages
           rm -rf Doc CodeCoverage
-          mv build/Doc/html Doc
-          mv build/TestCov/CodeCoverage CodeCoverage
+          mv Projects/${{ github.event.repository.name }}/build/Doc/html Doc
+          mv Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage CodeCoverage
           git add Doc/ CodeCoverage/
-          git commit --amend -m "Deploy from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
+          git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
           git push --force
