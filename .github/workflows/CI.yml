@@ -91,6 +91,7 @@ jobs:
           fi
           ./run.sh doc
       - name: Upload artifacts
+        if: runner.os == 'Linux'
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
@@ -100,7 +101,7 @@ jobs:
           retention-days: 1
   UploadToGHpages:
     name: UploadToGHpages
-    if: success() && github.ref == 'refs/heads/main'   # Upload only from main
+    if: success() #&& github.ref == 'refs/heads/main'   # Upload only from main
     needs: [Verification]
     runs-on: ubuntu-latest
     strategy:
