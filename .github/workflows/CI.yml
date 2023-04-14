@@ -113,11 +113,19 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: gh-pages
+      - name: List 1
+        run: |
+          pwd
+          ls -la
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: artifacts
           path: .
+      - name: List 2
+        run: |
+          pwd
+          ls -la
       - name: Upload
         run: |
           git config user.email "githubaction@users.noreply.github.com"
