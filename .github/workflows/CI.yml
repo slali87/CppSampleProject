@@ -24,7 +24,12 @@ jobs:
         run: mkdir Projects
       - name: Clone the repo
         run: |
-          git clone --depth 1 --single-branch --branch main --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git Projects/${{ github.event.repository.name }}
+          BRANCH=${{ github.ref_name }}
+          if [ ${{ github.event_name }} = 'pull_request' ]; then
+            BRANCH=${{ github.head_ref }}
+          fi
+          echo "BRANCH:$BRANCH"
+          git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git Projects/${{ github.event.repository.name }}
       - name: Resolve the dependencies
         run: |
           cd Projects/${{ github.event.repository.name }}
