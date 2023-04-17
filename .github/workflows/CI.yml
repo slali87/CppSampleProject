@@ -26,7 +26,7 @@ jobs:
         run: |
           BRANCH=${{ github.ref_name }}
           if [ github.event_name = 'pull_request' ]; then
-            BRANCH=${{ github.head_ref }}
+            BRANCH=${{ github.ref }}
           fi
           echo "BRANCH:$BRANCH"
           git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git Projects/${{ github.event.repository.name }}
