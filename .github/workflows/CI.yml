@@ -127,7 +127,6 @@ jobs:
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           git config credential.username ${{ github.actor }}
-          git config credential.password ${{ secrets.GITHUB_TOKEN }}
           rm -rf Doc CodeCoverage
           mv ../Doc/html Doc
           mv ../TestCov/CodeCoverage CodeCoverage
