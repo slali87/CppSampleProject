@@ -22,10 +22,9 @@ jobs:
     steps:
       - name: Create the Projects directory
         run: mkdir Projects
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          path: Projects/${{ github.event.repository.name }}
+      - name: Clone the repo
+        run: |
+          git clone --depth 1 --single-branch --branch main --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git Projects/${{ github.event.repository.name }}
       - name: Resolve the dependencies
         run: |
           cd Projects/${{ github.event.repository.name }}
@@ -109,22 +108,22 @@ jobs:
     permissions:
       contents: write  # Add to push to a branch
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: gh-pages
+      - name: Clone the repo
+        run: |
+          git clone --depth 1 --single-branch --branch gh-pages --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: artifacts
-          path: ./Tmp
+          path: .
       - name: Upload
         run: |
+          cd ${{ github.event.repository.name }}
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           rm -rf Doc CodeCoverage
-          mv Tmp/Doc/html Doc
-          mv Tmp/TestCov/CodeCoverage CodeCoverage
+          mv ../Doc/html Doc
+          mv ../TestCov/CodeCoverage CodeCoverage
           git add Doc/ CodeCoverage/
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
           git push --force
