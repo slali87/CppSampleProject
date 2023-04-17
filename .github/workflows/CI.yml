@@ -126,9 +126,10 @@ jobs:
           cd ${{ github.event.repository.name }}
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
+          git config credential.username ${{ github.actor }}
           rm -rf Doc CodeCoverage
           mv ../Doc/html Doc
           mv ../TestCov/CodeCoverage CodeCoverage
           git add Doc/ CodeCoverage/
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
-          git push --force
+          git push --force https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
