@@ -105,7 +105,7 @@ jobs:
           retention-days: 1
   UploadToGHpages:
     name: UploadToGHpages
-    if: success() && github.ref == 'refs/heads/main'   # Upload only from main
+    if: success() #&& github.ref == 'refs/heads/main'   # Upload only from main
     needs: [Verification]
     runs-on: ubuntu-latest
     strategy:
@@ -126,6 +126,8 @@ jobs:
           cd ${{ github.event.repository.name }}
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
+          git config credential.username ${{ github.actor }}
+          git config credential.password ${{ github.token }}
           rm -rf Doc CodeCoverage
           mv ../Doc/html Doc
           mv ../TestCov/CodeCoverage CodeCoverage
