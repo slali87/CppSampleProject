@@ -132,4 +132,4 @@ jobs:
           mv ../TestCov/CodeCoverage CodeCoverage
           git add Doc/ CodeCoverage/
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
-          git push --force
+          git push --force https://${{ github.token }}@github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
