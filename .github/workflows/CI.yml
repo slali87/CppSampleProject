@@ -97,6 +97,7 @@ jobs:
       - name: Check complexity
         run: |
           cd Projects/${{ github.event.repository.name }}
+          pip install lizard
           ./run.sh complex
       - name: Upload artifacts
         if: runner.os == 'Linux'
