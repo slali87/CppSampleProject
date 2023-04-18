@@ -2,7 +2,7 @@
 
 ## Welcome to **CppSampleProject**, the C++ sample project!
 
-This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/), **Bash** script, [**Valgrind**](https://valgrind.org/), [**LCOV Code Coverage**](https://wiki.documentfoundation.org/Development/Lcov), [**Clang-Tidy**](https://clang.llvm.org/extra/clang-tidy/), [**ClangFormat**](https://clang.llvm.org/docs/ClangFormat.html), [**Doxygen**](https://www.doxygen.nl/), [**Graphviz**](https://graphviz.org/).
+This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/), **Bash** script, [**Valgrind**](https://valgrind.org/), [**LCOV Code Coverage**](https://wiki.documentfoundation.org/Development/Lcov), [**Clang-Tidy**](https://clang.llvm.org/extra/clang-tidy/), [**ClangFormat**](https://clang.llvm.org/docs/ClangFormat.html), [**Doxygen**](https://www.doxygen.nl/), [**Graphviz**](https://graphviz.org/), [**Lizard**](https://github.com/terryyin/lizard).
 
 ### **Structure of the project:**
 ```
@@ -174,6 +174,14 @@ The **ClangFormat** program has to be available on the machine.
 The **Doxygen** and the **Graphviz** programs have to be available on the machine.  
 The doc will be saved into the **build** directory; the main file is "./build/Doc/html/index.html".  
 Online the documentation about the latest version can be found here: [**Documentation**](https://slali87.github.io/CppSampleProject/).
+
+### **Command to check complexity:**
+```
+./run.sh complex
+```
+The **Lizard** program has to be available on the machine.  
+A codecloud picture will be saved into the **build** directory; the file is "./build/codecloud.html".  
+Online the pic about the latest version can be found here: [**Codecloud**](https://slali87.github.io/CppSampleProject/codecloud.html).
 
 ### **Commands to create a patch from the last commit, and to apply it:**
 ```
