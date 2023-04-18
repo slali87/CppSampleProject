@@ -94,6 +94,10 @@ jobs:
             sudo apt install graphviz
           fi
           ./run.sh doc
+      - name: Check complexity
+        run: |
+          cd Projects/${{ github.event.repository.name }}
+          ./run.sh complex
       - name: Upload artifacts
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v3
@@ -102,6 +106,7 @@ jobs:
           path: |
             Projects/${{ github.event.repository.name }}/build/Doc/html
             Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage
+            Projects/${{ github.event.repository.name }}/build/codecloud.html
           retention-days: 1
   UploadToGHpages:
     name: UploadToGHpages
@@ -127,9 +132,10 @@ jobs:
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           git config credential.username ${{ github.actor }}
-          rm -rf Doc CodeCoverage
+          rm -rf Doc CodeCoverage codecloud.html
           mv ../Doc/html Doc
           mv ../TestCov/CodeCoverage CodeCoverage
-          git add Doc/ CodeCoverage/
+          mv ../codecloud.html codecloud.html
+          git add Doc/ CodeCoverage/ codecloud.html
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
           git push --force https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
