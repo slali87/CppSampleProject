@@ -2,9 +2,9 @@
 
 ## Welcome to **CppSampleProject**, the C++ sample project!
 
-This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Markdown**](https://www.markdownguide.org/), **Bash** script, [**Valgrind**](https://valgrind.org/), [**LCOV Code Coverage**](https://wiki.documentfoundation.org/Development/Lcov), [**Clang-Tidy**](https://clang.llvm.org/extra/clang-tidy/), [**ClangFormat**](https://clang.llvm.org/docs/ClangFormat.html), [**Doxygen**](https://www.doxygen.nl/), [**Graphviz**](https://graphviz.org/), [**Lizard**](https://github.com/terryyin/lizard).
+This is a cross-platform **C++** sample project which presents a base project structure which is ideal to develop many projects in parallel. The dependencies are organized into one common place in order to avoid its unnecessary downloading and building. It contains templates to create libraries and applications (executable programs) as well. It uses [**CMake**](https://cmake.org/), [**Git**](https://git-scm.com/), [**GitHub**](https://github.com/), [**Google Test**](https://github.com/google/googletest), [**Google Mock**](https://github.com/google/googletest/tree/main/googlemock), [**Markdown**](https://www.markdownguide.org/), **Bash** script, [**Valgrind**](https://valgrind.org/), [**LCOV Code Coverage**](https://wiki.documentfoundation.org/Development/Lcov), [**Clang-Tidy**](https://clang.llvm.org/extra/clang-tidy/), [**ClangFormat**](https://clang.llvm.org/docs/ClangFormat.html), [**Doxygen**](https://www.doxygen.nl/), [**Graphviz**](https://graphviz.org/), [**Lizard**](https://github.com/terryyin/lizard).
 
-### **Structure of the project:**
+### **Structure of the project (only the major files are listed):**
 ```
 ProgrammingRepo
     Deps

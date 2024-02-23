@@ -228,6 +228,7 @@ function testCoverage
 	test/"$executableName"Test
 	lcov --capture --rc lcov_branch_coverage=1 --directory . --output-file lcovResultAfter
 	lcov --rc lcov_branch_coverage=1 --add-tracefile lcovResultBefore --add-tracefile lcovResultAfter --output-file lcovResultCombined
+   sed -i '/_ZN11IHelloWorldD0Ev/d' lcovResultCombined   # _ZN11IHelloWorldD0Ev and _ZN11IHelloWorldD2Ev destructors are created by compiler, but the former (deleting destructor of a pure virtual class) is expectedly never called.
 	lcov --remove --rc lcov_branch_coverage=1 lcovResultCombined '/usr/*' '*/Deps/*' -o lcovResult
 	genhtml lcovResult --rc genhtml_branch_coverage=1 --output-directory CodeCoverage > log
    (( error |= $? ))
@@ -252,8 +253,15 @@ function testCoverage
 
 function analyseCode
 {
-   find . -path ./build -prune -o -regex '.*\.\(cpp\|h\)' -exec echo " --- Checking file: {} --- " \; -exec clang-tidy {} -p ./build/"$buildType"/ \;
-   return $?
+   error=0
+   for file in `find . -path ./build -prune -o -regex '.*\.\(cpp\|h\)' -print`
+   do
+     echo " --- Checking file: $file --- "
+     clang-tidy $file -p ./build/"$buildType"/
+     (( error |= $? ))
+   done
+
+   return $error
 }
 
 function formatCode
@@ -261,7 +269,7 @@ function formatCode
    # Check if there is any modified files
    numBefore=$(git diff --shortstat | tr -dc '0-9');
 
-   find . -path ./build -prune -o -regex '.*\.\(cpp\|h\)' -exec clang-format -style=file -i {} \;
+   find . -path ./build -prune -o -regex '.*\.\(cpp\|h\)' -print -exec clang-format -style=file -i {} \;
    error=$?
 
    # Check if there is any modified files
