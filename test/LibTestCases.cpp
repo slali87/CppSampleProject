@@ -20,7 +20,7 @@
 // clang-format off
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-owning-memory, fuchsia-default-arguments-calls, fuchsia-statically-constructed-objects, cppcoreguidelines-avoid-non-const-global-variables, clang-diagnostic-comment) // clang-format on
 TEST(LibTestSuite, testGetString_ReturnExpectedString) {
-  Lib lib;
+  const Lib lib;
   const char* returnValue{lib.getString(HelloWorld{})};
 
   EXPECT_STREQ(returnValue, "Hello LibWorld!");
@@ -35,10 +35,10 @@ TEST(LibTestSuite, testGetString_ReturnExpectedString) {
 // clang-format off
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-owning-memory, fuchsia-default-arguments-calls, fuchsia-statically-constructed-objects, cppcoreguidelines-avoid-non-const-global-variables, clang-diagnostic-comment) // clang-format on
 TEST(LibTestSuite, testGetString_CallHello) {
-  Lib lib;
-  MockHelloWorld helloWorld;
+  const Lib lib;
+  const MockHelloWorld helloWorld;
   EXPECT_CALL(helloWorld, hello())
     .Times(1);
     
-  lib.getString(helloWorld);
+  static_cast<void>(lib.getString(helloWorld));
 }

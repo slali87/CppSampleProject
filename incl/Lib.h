@@ -25,7 +25,7 @@ class Lib {
    * @param helloWorld is a reference to the Hello World interface
    * @return the IHelloWorld based c-string.
    */
-  const char* getString(const IHelloWorld& helloWorld);
+  [[nodiscard]] const char* getString(const IHelloWorld& helloWorld) const;
 };
 
 #endif  // LIB_H
