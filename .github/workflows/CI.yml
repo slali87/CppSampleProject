@@ -95,6 +95,9 @@ jobs:
           elif [ "$RUNNER_OS" == "Windows" ]; then
             choco install doxygen.install
             choco install graphviz
+            # Use alias, otherwise shell should be reopened
+            shopt -s expand_aliases
+            alias doxygen='/C/Program\ Files/doxygen/bin/doxygen.exe'
           fi
           ./run.sh doc
       - name: Check complexity
