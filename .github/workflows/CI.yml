@@ -92,14 +92,15 @@ jobs:
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt install doxygen
             sudo apt install graphviz
+            ./run.sh doc
           elif [ "$RUNNER_OS" == "Windows" ]; then
             choco install doxygen.install
             choco install graphviz
             # Use alias, otherwise shell should be reopened
             shopt -s expand_aliases
             alias doxygen='/C/Program\ Files/doxygen/bin/doxygen.exe'
+            . ./run.sh doc
           fi
-          ./run.sh doc
       - name: Check complexity
         run: |
           cd Projects/${{ github.event.repository.name }}
