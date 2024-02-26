@@ -1,5 +1,6 @@
 #include "App.h"
 
+#include "HelloWorld.h"
 #include "Lib.h"
 
 #include <iostream>
@@ -12,7 +13,8 @@ using std::cout;
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static, bugprone-exception-escape) // clang-format on
 int App::main() {
   cout << "Hello World!\n";
-  cout << Lib{}.helloWorld() << "\n";
+
+  cout << Lib{}.getString(HelloWorld{}) << "\n";
 
   return 0;
 }

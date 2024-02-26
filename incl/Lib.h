@@ -7,6 +7,8 @@
  * It contains the Lib related elements.
  */
 
+class IHelloWorld;
+
 /**
  * @brief A template for libraries.
  *
@@ -15,13 +17,15 @@
 class Lib {
  public:
   /**
-   * @brief It returns with the hello world string.
+   * @brief It returns with an IHelloWorld based string.
    *
-   * This function returns with the hello world c-string.
+   * This function returns with the hello world c-string based on a IHelloWorld
+   * implementation.
    *
-   * @return the hello world c-string.
+   * @param helloWorld is a reference to the Hello World interface
+   * @return the IHelloWorld based c-string.
    */
-  const char* helloWorld();
+  [[nodiscard]] const char* getString(const IHelloWorld& helloWorld) const;
 };
 
 #endif  // LIB_H

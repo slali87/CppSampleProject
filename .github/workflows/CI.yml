@@ -86,13 +86,20 @@ jobs:
         run: |
           cd Projects/${{ github.event.repository.name }}
           ./run.sh formatCode
-      - name: Create the document
+      - name: Install Doxygen
         run: |
           cd Projects/${{ github.event.repository.name }}
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt install doxygen
             sudo apt install graphviz
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            choco install doxygen.install
+            choco install graphviz
+            echo "/C/Program Files/doxygen/bin" >> $GITHUB_PATH
           fi
+      - name: Create the document
+        run: |
+          cd Projects/${{ github.event.repository.name }}
           ./run.sh doc
       - name: Check complexity
         run: |
