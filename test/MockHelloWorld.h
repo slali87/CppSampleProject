@@ -14,6 +14,6 @@
  */
 class MockHelloWorld : public IHelloWorld {
  public:
-  // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes)
+  // NOLINTNEXTLINE(misc-non-private-member-variables-in-classes, modernize-type-traits)
   MOCK_METHOD(const char*, hello, (), (const, override));
 };
