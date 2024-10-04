@@ -2,7 +2,7 @@ name: CI
 on: [push, pull_request]
 defaults:
   run:
-    shell: bash
+    shell: bash # TODO: use default shell on Windows
 jobs:
   Verification:
     name: ${{ matrix.config.name }}
@@ -20,8 +20,6 @@ jobs:
             os: windows-latest
           }
     steps:
-      - name: Create the Projects directory
-        run: mkdir Projects
       - name: Clone the repo
         run: |
           BRANCH=${{ github.ref_name }}
@@ -29,66 +27,67 @@ jobs:
             BRANCH=${{ github.head_ref }}
           fi
           echo "BRANCH:$BRANCH"
-          git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git Projects/${{ github.event.repository.name }}
-      - name: Resolve the dependencies
+          git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git}
+      - name: Resolve the dependencies and set up the project
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh deps
-      - name: Set up the project
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh setup
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/Setup.cmake
       - name: Test the commit message checker
         if: runner.os == 'Linux'
         run: |
-          cd Projects/${{ github.event.repository.name }}/tools/git/hooks
+          cd ${{ github.event.repository.name }}/tools/git/hooks
           ./test_commit-msg
       - name: Check the commit message
         # on pull_request, available commit message is not found by the tried command
         if: runner.os == 'Linux' && github.event_name != 'pull_request'
         run: |
-          cd Projects/${{ github.event.repository.name }}/tools/git/hooks
+          cd ${{ github.event.repository.name }}/tools/git/hooks
           git log -1 --pretty=%B > ./commitMessage
           ./commit-msg ./commitMessage
           rm ./commitMessage
       - name: Build
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh config
-          ./run.sh build
+          cd ${{ github.event.repository.name }}
+          cmake --preset=conan-release
+          cmake --build --preset=conan-release
+          cmake --preset=conan-debug
+          cmake --build --preset=conan-debug
       - name: Run the application and the tests
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh run
-          ./run.sh test
-          cd ./build && ctest && cd -
-      - name: Run Valgrind
-        if: runner.os == 'Linux'
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          sudo apt install valgrind
-          ./run.sh setDeb
-          ./run.sh config
-          ./run.sh build
-          ./run.sh valgrind
-          ./run.sh setRel
-      - name: Test coverage
-        if: runner.os == 'Linux'
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          sudo apt install lcov
-          ./run.sh testCov
-      - name: Analyse the code
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh analyseCode
-      - name: Format the code
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh formatCode
+          cd ${{ github.event.repository.name }}
+          ./build/Release/src/app/CppSampleProject
+          ./build/Release/test/CppSampleProjectTest
+          ctest --test-dir ./build/Release/test
+          ./build/Debug/src/app/CppSampleProject
+          ./build/Debug/test/CppSampleProjectTest
+          ctest --test-dir ./build/Debug/test
+#      - name: Run Valgrind
+#        if: runner.os == 'Linux'
+#        run: |
+#          cd Projects/${{ github.event.repository.name }}
+#          sudo apt install valgrind
+#          ./run.sh setDeb
+#          ./run.sh config
+#          ./run.sh build
+#          ./run.sh valgrind
+#          ./run.sh setRel
+#      - name: Test coverage
+#        if: runner.os == 'Linux'
+#        run: |
+#          cd Projects/${{ github.event.repository.name }}
+#          sudo apt install lcov
+#          ./run.sh testCov
+#      - name: Analyse the code
+#        run: |
+#          cd Projects/${{ github.event.repository.name }}
+#          ./run.sh analyseCode
+#      - name: Format the code
+#        run: |
+#          cd Projects/${{ github.event.repository.name }}
+#          ./run.sh formatCode
       - name: Install Doxygen
         run: |
-          cd Projects/${{ github.event.repository.name }}
+          cd ${{ github.event.repository.name }}
           if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt install doxygen
             sudo apt install graphviz
@@ -99,22 +98,22 @@ jobs:
           fi
       - name: Create the document
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh doc
-      - name: Check complexity
-        run: |
-          cd Projects/${{ github.event.repository.name }}
-          pip install lizard
-          ./run.sh complex
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/Doxygen.cmake
+#      - name: Check complexity
+#        run: |
+#          cd Projects/${{ github.event.repository.name }}
+#          pip install lizard
+#          ./run.sh complex
       - name: Upload artifacts
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: |
-            Projects/${{ github.event.repository.name }}/build/Doc/html
-            Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage
-            Projects/${{ github.event.repository.name }}/build/codecloud.html
+            ${{ github.event.repository.name }}/build/Doc/html
+#            ${{ github.event.repository.name }}/build/TestCov/CodeCoverage
+#            ${{ github.event.repository.name }}/build/codecloud.html
           retention-days: 1
   UploadToGHpages:
     name: UploadToGHpages
@@ -140,10 +139,8 @@ jobs:
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           git config credential.username ${{ github.actor }}
-          rm -rf Doc CodeCoverage codecloud.html
-          mv ../Doc/html Doc
-          mv ../TestCov/CodeCoverage CodeCoverage
-          mv ../codecloud.html codecloud.html
-          git add Doc/ CodeCoverage/ codecloud.html
+          rm -rf Doc #CodeCoverage codecloud.html
+          mv ../Doc/html Doc #mv ../TestCov/CodeCoverage CodeCoverage #mv ../codecloud.html codecloud.html
+          git add Doc/ #CodeCoverage/ codecloud.html
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
           git push --force https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git

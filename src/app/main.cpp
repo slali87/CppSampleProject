@@ -2,14 +2,15 @@
  * @brief It contains the global main function.
  */
 
-#include "App.h"
+#include "app.hpp"
+#include "lib/lib.hpp"
 
 /**
  * @brief The global main function.
  *
  * This function is the global main.
- * Currently, it just calls App::main function.
+ * Currently, it just calls app::App::main function with the injected lib::Lib.
  *
  * @return the error code, 0 means everything went well.
  */
-int main() { return App{}.main(); }
+int main() { return app::App{lib::Lib{}}.main(); }

@@ -7,6 +7,9 @@
  * It contains the App related elements.
  */
 
+#include "lib/iLib.hpp"
+
+namespace app {
 /**
  * @brief A template for executables.
  *
@@ -14,6 +17,8 @@
  */
 class App {
  public:
+  App(const lib::ILib &lib) : mLib(lib) {}
+
   /**
    * @brief The entry point of App.
    *
@@ -24,6 +29,10 @@ class App {
    * @return the error code: 0 means everything went well.
    */
   int main();
+
+ private:
+  const lib::ILib &mLib;
 };
+}  // namespace app
 
 #endif  // APP_H
