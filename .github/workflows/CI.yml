@@ -28,6 +28,10 @@ jobs:
           fi
           echo "BRANCH:$BRANCH"
           git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
+      - name: Install Conan
+        run: |
+          cd ${{ github.event.repository.name }}
+          pip install conan
       - name: Resolve the dependencies and set up the project
         run: |
           cd ${{ github.event.repository.name }}
