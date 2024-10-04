@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 message("Run Doxygen")
-execute_process(COMMAND doxygen Doxyfile WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+execute_process(COMMAND doxygen Doxyfile WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND_ERROR_IS_FATAL ANY)
 
 # Delete PATTERN from the file named FILE_NAME
 function(delete FILE_NAME PATTERN)
