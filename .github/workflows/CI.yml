@@ -43,7 +43,7 @@ jobs:
           ls
           doxygen -v
           pwd
-          cmake -P cmake/Doxygen.cmake -v
+          cmake -P cmake/Doxygen.cmake "/C/Program Files/doxygen/bin/doxygen"
 #      - name: Check complexity
 #        run: |
 #          cd Projects/${{ github.event.repository.name }}
