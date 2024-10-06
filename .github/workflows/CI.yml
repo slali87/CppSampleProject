@@ -42,14 +42,10 @@ jobs:
       - name: Create the document
         run: |
           cd ${{ github.event.repository.name }}
-          echo "$GITHUB_PATH"
-          ls
-          doxygen -v
-          pwd
-          mkdir ./build/
           if [ "$RUNNER_OS" == "Linux" ]; then
-            cmake -P cmake/Doxygen.cmake
+            cmake -P cmake/Doxygen.cmake 
           elif [ "$RUNNER_OS" == "Windows" ]; then
+            # Add full path since CMake can not see the doxygen from the PATH 
             cmake -P cmake/Doxygen.cmake "/C/Program Files/doxygen/bin/doxygen"
           fi
 #      - name: Check complexity

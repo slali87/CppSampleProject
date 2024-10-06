@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 message("Run Doxygen")
-
+# Workaround for the CMake-Doxygen-Windows path issue
 if(${CMAKE_ARGC} EQUAL 4)
    set(Doxygen "${CMAKE_ARGV3}")
 else()
