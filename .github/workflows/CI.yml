@@ -46,6 +46,7 @@ jobs:
           ls
           doxygen -v
           pwd
+          mkdir ./build/
           if [ "$RUNNER_OS" == "Linux" ]; then
             cmake -P cmake/Doxygen.cmake
           elif [ "$RUNNER_OS" == "Windows" ]; then
