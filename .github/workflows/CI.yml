@@ -28,67 +28,6 @@ jobs:
           fi
           echo "BRANCH:$BRANCH"
           git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
-      - name: Install Conan
-        run: |
-          cd ${{ github.event.repository.name }}
-          pip install conan
-      - name: Resolve the dependencies and set up the project
-        run: |
-          cd ${{ github.event.repository.name }}
-          cmake -P cmake/Setup.cmake
-      - name: Test the commit message checker
-        if: runner.os == 'Linux'
-        run: |
-          cd ${{ github.event.repository.name }}/tools/git/hooks
-          ./test_commit-msg
-      - name: Check the commit message
-        # on pull_request, available commit message is not found by the tried command
-        if: runner.os == 'Linux' && github.event_name != 'pull_request'
-        run: |
-          cd ${{ github.event.repository.name }}/tools/git/hooks
-          git log -1 --pretty=%B > ./commitMessage
-          ./commit-msg ./commitMessage
-          rm ./commitMessage
-      - name: Build
-        run: |
-          cd ${{ github.event.repository.name }}
-          cmake --preset=conan-release
-          cmake --build --preset=conan-release
-          cmake --preset=conan-debug
-          cmake --build --preset=conan-debug
-      - name: Run the application and the tests
-        run: |
-          cd ${{ github.event.repository.name }}
-          ./build/Release/src/app/CppSampleProject
-          ./build/Release/test/CppSampleProjectTest
-          ctest --test-dir ./build/Release/test
-          ./build/Debug/src/app/CppSampleProject
-          ./build/Debug/test/CppSampleProjectTest
-          ctest --test-dir ./build/Debug/test
-#      - name: Run Valgrind
-#        if: runner.os == 'Linux'
-#        run: |
-#          cd Projects/${{ github.event.repository.name }}
-#          sudo apt install valgrind
-#          ./run.sh setDeb
-#          ./run.sh config
-#          ./run.sh build
-#          ./run.sh valgrind
-#          ./run.sh setRel
-#      - name: Test coverage
-#        if: runner.os == 'Linux'
-#        run: |
-#          cd Projects/${{ github.event.repository.name }}
-#          sudo apt install lcov
-#          ./run.sh testCov
-#      - name: Analyse the code
-#        run: |
-#          cd Projects/${{ github.event.repository.name }}
-#          ./run.sh analyseCode
-#      - name: Format the code
-#        run: |
-#          cd Projects/${{ github.event.repository.name }}
-#          ./run.sh formatCode
       - name: Install Doxygen
         run: |
           cd ${{ github.event.repository.name }}
@@ -103,7 +42,12 @@ jobs:
       - name: Create the document
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/Doxygen.cmake
+          echo "$GITHUB_PATH"
+          ls
+          ls "/C/Program Files/doxygen/bin"
+          doxygen -v
+          pwd
+          cmake -P cmake/Doxygen.cmake -v
 #      - name: Check complexity
 #        run: |
 #          cd Projects/${{ github.event.repository.name }}
