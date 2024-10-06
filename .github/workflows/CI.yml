@@ -41,7 +41,6 @@ jobs:
           cd ${{ github.event.repository.name }}
           echo "$GITHUB_PATH"
           ls
-          ls "/C/Program Files/doxygen/bin"
           doxygen -v
           pwd
           cmake -P cmake/Doxygen.cmake -v
