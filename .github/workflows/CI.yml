@@ -1,5 +1,8 @@
 name: CI
 on: [push, pull_request]
+defaults:
+  run:
+    shell: bash
 jobs:
   Verification:
     name: ${{ matrix.config.name }}
@@ -43,7 +46,11 @@ jobs:
           ls
           doxygen -v
           pwd
-          cmake -P cmake/Doxygen.cmake "/C/Program Files/doxygen/bin/doxygen"
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            cmake -P cmake/Doxygen.cmake
+          elif [ "$RUNNER_OS" == "Windows" ]; then
+            cmake -P cmake/Doxygen.cmake "/C/Program Files/doxygen/bin/doxygen"
+          fi
 #      - name: Check complexity
 #        run: |
 #          cd Projects/${{ github.event.repository.name }}
