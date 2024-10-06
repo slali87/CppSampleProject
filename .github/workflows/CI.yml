@@ -35,8 +35,8 @@ jobs:
             sudo apt install doxygen
             sudo apt install graphviz
           elif [ "$RUNNER_OS" == "Windows" ]; then
-            choco install doxygen.install
-            choco install graphviz
+            winget install doxygen
+            winget install graphviz
             echo "/C/Program Files/doxygen/bin" >> $GITHUB_PATH
           fi
       - name: Create the document
