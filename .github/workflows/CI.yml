@@ -102,7 +102,7 @@ jobs:
       - name: Create the document
         env:
           # Add full path on Windows since CMake can not see the doxygen from the PATH 
-          CMD: ${{ runner.os == 'Windows' && '"/C/Program Files/doxygen/bin/doxygen"' || '' }}
+          CMD: ${{ runner.os == 'Windows' && '"C:\Program Files\doxygen\bin\doxygen"' || '' }}
         run: |
           cd ${{ github.event.repository.name }}
           cmake -P cmake/Doxygen.cmake ${{ env.CMD }}
