@@ -20,7 +20,7 @@ jobs:
       - name: Clone the repo
         env:
           # Fake ternary syntax : ${{ condition && 'ifTrue' || 'ifFalse'  }}
-          BRANCH: ${{ github.event_name =='pull_request' && 'github.head_ref' || 'github.ref_name' }}
+          BRANCH: ${{ github.event_name =='pull_request' && github.head_ref || github.ref_name }}
         run: |
           echo "BRANCH:$BRANCH"      # Linux
           echo "BRANCH:%BRANCH%"     # Cmd
