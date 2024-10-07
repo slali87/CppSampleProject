@@ -25,7 +25,7 @@ jobs:
           echo "BRANCH:$BRANCH"      # Linux
           echo "BRANCH:%BRANCH%"     # Cmd
           echo "BRANCH:$Env:BRANCH"  # PS
-          git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
+          git clone --depth 1 --single-branch --branch ${{ env.BRANCH }} --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
       - name: Install Conan
         run: |
           cd ${{ github.event.repository.name }}
