@@ -87,26 +87,25 @@ jobs:
 #        run: |
 #          cd Projects/${{ github.event.repository.name }}
 #          ./run.sh formatCode
-      - name: Install Doxygen
+      - name: Install Doxygen on Linux
+        if: runner.os == 'Linux'
         run: |
           cd ${{ github.event.repository.name }}
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt install doxygen
-            sudo apt install graphviz
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            choco install doxygen.install
-            choco install graphviz
-            echo "/C/Program Files/doxygen/bin" >> $GITHUB_PATH
-          fi
+          sudo apt install doxygen
+          sudo apt install graphviz
+      - name: Install Doxygen on Windows
+        if: runner.os == 'Windows'
+        run: |
+          cd ${{ github.event.repository.name }}
+          choco install doxygen.install
+          choco install graphviz
       - name: Create the document
+        env:
+          # Add full path on Windows since CMake can not see the doxygen from the PATH 
+          CMD: ${{ runner.os == 'Windows' && '/C/Program Files/doxygen/bin/doxygen' || '' }}
         run: |
           cd ${{ github.event.repository.name }}
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            cmake -P cmake/Doxygen.cmake 
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            # Add full path since CMake can not see the doxygen from the PATH 
-            cmake -P cmake/Doxygen.cmake "/C/Program Files/doxygen/bin/doxygen"
-          fi
+          cmake -P cmake/Doxygen.cmake ${{ env.CMD }}
 #      - name: Check complexity
 #        run: |
 #          cd Projects/${{ github.event.repository.name }}
