@@ -1,8 +1,5 @@
 name: CI
 on: [push, pull_request]
-defaults:
-  run:
-    shell: bash # TODO: use default shell on Windows
 jobs:
   Verification:
     name: ${{ matrix.config.name }}
@@ -21,12 +18,13 @@ jobs:
           }
     steps:
       - name: Clone the repo
+        env:
+          # Fake ternary syntax : ${{ condition && 'ifTrue' || 'ifFalse'  }}
+          BRANCH: ${{ github.event_name =='pull_request' && 'github.head_ref' || 'github.ref_name' }}
         run: |
-          BRANCH=${{ github.ref_name }}
-          if [ ${{ github.event_name }} = 'pull_request' ]; then
-            BRANCH=${{ github.head_ref }}
-          fi
-          echo "BRANCH:$BRANCH"
+          echo "BRANCH:$BRANCH"      # Linux
+          echo "BRANCH:%BRANCH%"     # Cmd
+          echo "BRANCH:$Env:BRANCH"  # PS
           git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
       - name: Install Conan
         run: |
