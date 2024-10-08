@@ -118,7 +118,7 @@ jobs:
           name: artifacts
           path: |
             ${{ github.event.repository.name }}/build/Doc/html
-#            ${{ github.event.repository.name }}/build/TestCov/CodeCoverage
+            ${{ github.event.repository.name }}/build/TestCov/CodeCoverage
             ${{ github.event.repository.name }}/build/codecloud.html
           retention-days: 1
   UploadToGHpages:
