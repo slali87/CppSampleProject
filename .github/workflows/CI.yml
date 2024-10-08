@@ -66,7 +66,7 @@ jobs:
 #      - name: Run Valgrind
 #        if: runner.os == 'Linux'
 #        run: |
-#          cd Projects/${{ github.event.repository.name }}
+#          cd ${{ github.event.repository.name }}
 #          sudo apt install valgrind
 #          ./run.sh setDeb
 #          ./run.sh config
@@ -76,16 +76,16 @@ jobs:
 #      - name: Test coverage
 #        if: runner.os == 'Linux'
 #        run: |
-#          cd Projects/${{ github.event.repository.name }}
+#          cd ${{ github.event.repository.name }}
 #          sudo apt install lcov
 #          ./run.sh testCov
 #      - name: Analyse the code
 #        run: |
-#          cd Projects/${{ github.event.repository.name }}
+#          cd ${{ github.event.repository.name }}
 #          ./run.sh analyseCode
 #      - name: Format the code
 #        run: |
-#          cd Projects/${{ github.event.repository.name }}
+#          cd ${{ github.event.repository.name }}
 #          ./run.sh formatCode
       - name: Install Doxygen on Linux
         if: runner.os == 'Linux'
@@ -108,7 +108,7 @@ jobs:
           cmake -P cmake/Doxygen.cmake ${{ env.CMD }}
       - name: Check complexity
         run: |
-          cd Projects/${{ github.event.repository.name }}
+          cd ${{ github.event.repository.name }}
           pip install lizard
           cmake -P .\cmake\Complex.cmake
       - name: Upload artifacts
