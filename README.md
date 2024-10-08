@@ -114,7 +114,7 @@ ctest --test-dir ./build/Debug/test
 
 ### **Delete the build directory:**
 ```
-TODO: ./run.sh clean
+cmake -P cmake/Clean.cmake
 ```
 
 ### **Run all steps (including: deps, setup, config, build, run, test):**
@@ -178,8 +178,8 @@ Online the pic about the latest version can be found here: [**Codecloud**](https
 
 ### **Commands to create a patch from the last commit, and to apply it:**
 ```
-TODO: ./run.sh createPatch
-TODO: ./run.sh applyPatch
+cmake -P cmake/CreatePatch.cmake
+cmake -P cmake/ApplyPatch.cmake
 ```
 
 ## **Happy developing!**
