@@ -170,7 +170,7 @@ Online the documentation about the latest version can be found here: [**Document
 
 ### **Command to check complexity:**
 ```
-TODO: ./run.sh complex
+cmake -P .\cmake\Complex.cmake
 ```
 The **Lizard** program has to be available on the machine.  
 A codecloud picture will be saved into the **build** directory; the file is "./build/codecloud.html".  

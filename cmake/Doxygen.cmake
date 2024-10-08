@@ -8,8 +8,9 @@ else()
    set(Doxygen "doxygen")
 endif()
 message("Doxygen: ${Doxygen}")
-execute_process(COMMAND ${Doxygen} -v WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND_ERROR_IS_FATAL ANY)
-execute_process(COMMAND ${Doxygen} ${CMAKE_SOURCE_DIR}/Doxyfile WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND_ERROR_IS_FATAL ANY)
+execute_process(COMMAND ${Doxygen} ${CMAKE_SOURCE_DIR}/Doxyfile
+   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+   COMMAND_ERROR_IS_FATAL ANY)
 
 # Delete PATTERN from the file named FILE_NAME
 function(delete FILE_NAME PATTERN)

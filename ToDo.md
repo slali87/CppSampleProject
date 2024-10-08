@@ -10,9 +10,6 @@
 - **Implement formatCode**  
 	with .clang-format
 
-- **Implement complexity**  
-	.
-
 - **Implement all**  
 	.
 
