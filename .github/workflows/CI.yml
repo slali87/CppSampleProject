@@ -110,7 +110,7 @@ jobs:
         run: |
           cd ${{ github.event.repository.name }}
           pip install lizard
-          cmake -P .\cmake\Complex.cmake
+          cmake -P cmake/Complex.cmake
       - name: Upload artifacts
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
