@@ -4,11 +4,15 @@
  * It contains mocks of ILib.
  */
 
-#ifndef LIBMOCK_H
-#define LIBMOCK_H
+// Silence since the suggested name is wrong
+// NOLINTNEXTLINE(llvm-header-guard)
+#ifndef LIB_LIBMOCK_HPP
+#define LIB_LIBMOCK_HPP
 
 #include "gmock/gmock.h"
 #include "lib/iLib.hpp"
+
+#include <string>
 
 namespace lib {
 /**
@@ -18,9 +22,8 @@ namespace lib {
  */
 class LibMock : public ILib {
  public:
-  MOCK_METHOD(std::string, createUpperString, (std::string),
-              (const, noexcept, override));
+  MOCK_METHOD(std::string, createUpperString, (std::string), (const, override));
 };
 }  // namespace lib
 
-#endif  // LIBMOCK_H
+#endif  // LIB_LIBMOCK_HPP

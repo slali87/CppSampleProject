@@ -1,5 +1,5 @@
-#ifndef APP_H
-#define APP_H
+#ifndef APP_HPP
+#define APP_HPP
 
 /** @file
  * @brief App related elements.
@@ -17,7 +17,12 @@ namespace app {
  */
 class App {
  public:
-  App(const lib::ILib &lib) : mLib(lib) {}
+  constexpr explicit App(const lib::ILib& lib) : mLib(lib) {}
+  constexpr App(const App&) = delete;
+  constexpr App(App&&) = delete;
+  App& operator=(const App&) = delete;
+  App& operator=(App&&) = delete;
+  constexpr ~App() = default;
 
   /**
    * @brief The entry point of App.
@@ -31,8 +36,8 @@ class App {
   int main();
 
  private:
-  const lib::ILib &mLib;
+  const lib::ILib& mLib;
 };
 }  // namespace app
 
-#endif  // APP_H
+#endif  // APP_HPP

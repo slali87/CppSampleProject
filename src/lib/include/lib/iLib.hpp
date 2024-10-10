@@ -1,5 +1,5 @@
-#ifndef ILIB_H
-#define ILIB_H
+#ifndef LIB_ILIB_HPP
+#define LIB_ILIB_HPP
 
 /** @file
  * @brief ILib interface related elements.
@@ -17,6 +17,13 @@ namespace lib {
  */
 class ILib {
  public:
+  constexpr ILib() = default;
+  constexpr ILib(const ILib&) = delete;
+  constexpr ILib(ILib&&) = delete;
+  ILib& operator=(const ILib&) = delete;
+  ILib& operator=(ILib&&) = delete;
+  virtual ~ILib() = default;
+
   /**
    * @brief It creates an uppercase string from the input.
    *
@@ -26,8 +33,8 @@ class ILib {
    * @return the uppercase string.
    */
   [[nodiscard]] virtual std::string createUpperString(
-      std::string string) const noexcept = 0;
+      std::string string) const = 0;
 };
 }  // namespace lib
 
-#endif  // ILIB_H
+#endif  // LIB_ILIB_HPP

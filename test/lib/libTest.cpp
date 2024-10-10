@@ -17,11 +17,13 @@
  */
 TEST(LibTestSuite, testCreateUpperString_ReturnExpectedString) {
   // GIVEN
-  lib::Lib lib;
-  std::string inputString{"Hello LibWorld!"};
+  const lib::Lib lib;
+  // Silence since the default parameter was declared in std::basic_string
+  // NOLINTNEXTLINE(fuchsia-default-arguments-calls)
+  const std::string inputString{"Hello LibWorld!"};
 
   // WHEN
-  std::string outputString{lib.createUpperString(inputString)};
+  const std::string outputString{lib.createUpperString(inputString)};
 
   // THEN
   EXPECT_STREQ(outputString.c_str(), "HELLO LIBWORLD!");

@@ -17,7 +17,7 @@
  */
 TEST(AppTestSuite, testMain_Return0) {
   // GIVEN
-  lib::Lib lib;
+  const lib::Lib lib;
 
   // WHEN
   auto returnValue{app::App{lib}.main()};
@@ -34,7 +34,7 @@ TEST(AppTestSuite, testMain_Return0) {
  */
 TEST(AppTestSuite, testMain_CallCreateUpperString) {
   // GIVEN
-  lib::LibMock lib;
+  const lib::LibMock lib;
   EXPECT_CALL(lib, createUpperString("Hello Big World!")).Times(1);
 
   // WHEN

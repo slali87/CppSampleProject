@@ -1,5 +1,5 @@
-#ifndef LIB_H
-#define LIB_H
+#ifndef LIB_LIB_HPP
+#define LIB_LIB_HPP
 
 /** @file
  * @brief Lib implementation related elements.
@@ -8,6 +8,8 @@
  */
 
 #include "iLib.hpp"
+
+#include <string>
 
 namespace lib {
 /**
@@ -21,8 +23,8 @@ class Lib : public ILib {
    * @brief See ILib::createUpperString
    */
   [[nodiscard]] std::string createUpperString(
-      std::string string) const noexcept override;
+      std::string string) const override;
 };
 }  // namespace lib
 
-#endif  // LIB_H
+#endif  // LIB_LIB_HPP

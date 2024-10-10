@@ -149,7 +149,7 @@ Online the code coverage of the latest version can be found here: [**Code covera
 
 ### **Command to analyse the code:**
 ```
-TODO: ./run.sh analyseCode
+cmake -P cmake/AnalyseCode.cmake
 ```
 The **Clang-Tidy** program has to be available on the machine.  
 The './run.sh config' command has to be ran before running this.

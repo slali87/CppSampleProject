@@ -79,10 +79,10 @@ jobs:
 #          cd ${{ github.event.repository.name }}
 #          sudo apt install lcov
 #          ./run.sh testCov
-#      - name: Analyse the code
-#        run: |
-#          cd ${{ github.event.repository.name }}
-#          ./run.sh analyseCode
+      - name: Analyse the code
+        run: |
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/AnalyseCode.cmake
       - name: Format the code
         run: |
           cd ${{ github.event.repository.name }}
