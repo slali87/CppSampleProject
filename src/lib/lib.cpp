@@ -6,7 +6,7 @@
 
 namespace lib {
 std::string Lib::createUpperString(std::string string) const {
-  std::for_each(std::begin(string), std::end(string), ::toupper);
+  std::transform(cbegin(string), cend(string), begin(string), ::toupper);
   return string;
 }
 }  // namespace lib
