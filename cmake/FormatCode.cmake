@@ -13,8 +13,8 @@ file(GLOB_RECURSE SOURCE_FILES FOLLOW_SYMLINKS
     LIST_DIRECTORIES false ${EXPRESSION}
 )
 list(FILTER SOURCE_FILES EXCLUDE REGEX ".*/build/.*")
-execute_process(COMMAND clang-format-18 --version)
-execute_process(COMMAND clang-format-18 -style=file -i ${SOURCE_FILES}
+execute_process(COMMAND clang-format --version)
+execute_process(COMMAND clang-format -style=file -i ${SOURCE_FILES}
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMAND_ERROR_IS_FATAL ANY)
 
