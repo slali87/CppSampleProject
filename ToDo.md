@@ -1,6 +1,3 @@
-- **Implement runValgrin**  
-	.
-
 - **Implement testCoverage**  
 	.
 

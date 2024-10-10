@@ -131,7 +131,7 @@ The default mode is Release.
 
 ### **Command to run Valgrind:**
 ```
-TODO: ./run.sh valgrind
+cmake -P cmake/Valgrind.cmake
 ```
 The **Valgrind** program has to be available on the machine.  
 The debug version of the executable has to be built.

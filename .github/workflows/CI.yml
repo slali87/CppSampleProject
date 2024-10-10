@@ -63,16 +63,12 @@ jobs:
           ./build/Debug/src/app/CppSampleProject
           ./build/Debug/test/CppSampleProjectTest
           ctest --test-dir ./build/Debug/test
-#      - name: Run Valgrind
-#        if: runner.os == 'Linux'
-#        run: |
-#          cd ${{ github.event.repository.name }}
-#          sudo apt install valgrind
-#          ./run.sh setDeb
-#          ./run.sh config
-#          ./run.sh build
-#          ./run.sh valgrind
-#          ./run.sh setRel
+      - name: Run Valgrind
+        if: runner.os == 'Linux'
+        run: |
+          cd ${{ github.event.repository.name }}
+          sudo apt install valgrind
+          cmake -P cmake/Valgrind.cmake
 #      - name: Test coverage
 #        if: runner.os == 'Linux'
 #        run: |
