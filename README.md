@@ -156,7 +156,7 @@ The './run.sh config' command has to be ran before running this.
 
 ### **Command to format the code:**
 ```
-TODO: ./run.sh formatCode
+cmake -P cmake/FormatCode.cmake
 ```
 The **ClangFormat** program has to be available on the machine.
 
