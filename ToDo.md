@@ -1,4 +1,7 @@
-- **Implement testCoverage**  
+- **Add Cmake scripts to build, run and test**  
+	.
+
+- **Refactor Cmake scripts**  
 	.
 
 - **Implement all**  

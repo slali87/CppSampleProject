@@ -69,12 +69,12 @@ jobs:
           cd ${{ github.event.repository.name }}
           sudo apt install valgrind
           cmake -P cmake/Valgrind.cmake
-#      - name: Test coverage
-#        if: runner.os == 'Linux'
-#        run: |
-#          cd ${{ github.event.repository.name }}
-#          sudo apt install lcov
-#          ./run.sh testCov
+      - name: Test coverage
+        if: runner.os == 'Linux'
+        run: |
+          cd ${{ github.event.repository.name }}
+          sudo apt install lcov
+          cmake -P cmake/TestCov.cmake
       - name: Analyse the code
         run: |
           cd ${{ github.event.repository.name }}
@@ -141,10 +141,10 @@ jobs:
           git config user.email "githubaction@users.noreply.github.com"
           git config user.name "GitHub Action"
           git config credential.username ${{ github.actor }}
-          rm -rf Doc #CodeCoverage codecloud.html
+          rm -rf Doc CodeCoverage codecloud.html
           mv ../Doc/html Doc
           mv ../TestCov/CodeCoverage CodeCoverage
           mv ../codecloud.html codecloud.html
-          git add Doc/ #CodeCoverage/ codecloud.html
+          git add Doc/ CodeCoverage/ codecloud.html
           git commit --amend -m "Upload from ${{ github.sha }}" # Overwrite since the history is not needed for generated files
           git push --force https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git

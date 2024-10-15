@@ -11,6 +11,8 @@ message(STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+include(cmake/Config.cmake)
+
 add_subdirectory(src)
 include(CTest)
 if(BUILD_TESTING)

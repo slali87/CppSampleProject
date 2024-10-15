@@ -138,7 +138,7 @@ The debug version of the executable has to be built.
 
 ### **Command to measure the code coverage:**
 ```
-TODO: ./run.sh testCov
+cmake -P cmake/TestCov.cmake
 ```
 The **LCOV Code Coverage** program has to be available on the machine.  
 The report will be saved into the **build** directory; the main file is "./build/TestCov/CodeCoverage/index.html".  
@@ -170,7 +170,7 @@ Online the documentation about the latest version can be found here: [**Document
 
 ### **Command to check complexity:**
 ```
-cmake -P .\cmake\Complex.cmake
+cmake -P cmake/Complex.cmake
 ```
 The **Lizard** program has to be available on the machine.  
 A codecloud picture will be saved into the **build** directory; the file is "./build/codecloud.html".  
