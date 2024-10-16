@@ -30,7 +30,7 @@ jobs:
       - name: Install Conan
         run: |
           cd ${{ github.event.repository.name }}
-          pip install conan
+          pip install conan --break-system-packages
       - name: Resolve the dependencies and set up the project
         run: |
           cd ${{ github.event.repository.name }}
