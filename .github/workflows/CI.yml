@@ -10,7 +10,8 @@ jobs:
         config:
         - {
             name: "Linux",
-            os: ubuntu-latest
+#            os: ubuntu-latest    # TODO: Use it again when it will be ubuntu-24.04, Probably after October 30th , 2024
+            os: ubuntu-24.04
           }
         - {
             name: "Windows",
