@@ -106,7 +106,7 @@ jobs:
       - name: Check complexity
         run: |
           cd ${{ github.event.repository.name }}
-          pip install lizard
+          pip install lizard --break-system-packages
           cmake -P cmake/Complex.cmake
       - name: Upload artifacts
         if: runner.os == 'Linux'
