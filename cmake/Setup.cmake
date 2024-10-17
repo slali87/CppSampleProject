@@ -21,6 +21,12 @@ execute_process(COMMAND conan install . -s "&:build_type=TestCov" -pr:a=${Profil
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   COMMAND_ERROR_IS_FATAL ANY)
 
+if(NOT EXISTS "./build/BuildType/")
+  execute_process(COMMAND cmake -P cmake/SetRelease.cmake
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMAND_ERROR_IS_FATAL ANY)
+endif()
+
 # set git hooks
 execute_process(COMMAND git config core.hooksPath ${CMAKE_SOURCE_DIR}/tools/git/hooks
   COMMAND_ERROR_IS_FATAL ANY)

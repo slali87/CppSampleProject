@@ -88,28 +88,19 @@ cmake -P cmake/Setup.cmake
 
 ### **Steps of build:**
 ```
-cmake --preset=conan-release
-cmake --build --preset=conan-release
-```
-Same for debug:
-```
-cmake --preset=conan-debug
-cmake --build --preset=conan-debug
+cmake -P cmake/Build.cmake
 ```
 
 ### **Commands of run:**
 ```
-./build/Release/src/app/CppSampleProject
-./build/Release/test/CppSampleProjectTest
-ctest --test-dir ./build/Release/test
+cmake -P cmake/Run.cmake
+cmake -P cmake/Test.cmake
 ```
 The first command runs the application, the second runs the tests.  
-The third runs the tests by **ctest**.  
-Same for debug:
+The **ctest** command also works:  
 ```
-./build/Debug/src/app/CppSampleProject
-./build/Debug/test/CppSampleProjectTest
-ctest --test-dir ./build/Debug/test
+ctest --test-dir ./build/Release/test   # For Release
+ctest --test-dir ./build/Debug/test     # For Debug
 ```
 
 ### **Delete the build directory:**
@@ -119,13 +110,13 @@ cmake -P cmake/Clean.cmake
 
 ### **Run all steps (including: deps, setup, config, build, run, test):**
 ```
-TODO: ./run.sh all
+cmake -P cmake/All.cmake
 ```
 
 ### **Commands to switch betwen Release and Debug mode:**
 ```
-TODO: ./run.sh setRel
-TODO: ./run.sh setDeb
+cmake -P cmake/SetRelease.cmake
+cmake -P cmake/SetDebug.cmake
 ```
 The default mode is Release.
 

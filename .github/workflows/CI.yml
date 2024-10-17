@@ -51,19 +51,13 @@ jobs:
       - name: Build
         run: |
           cd ${{ github.event.repository.name }}
-          cmake --preset=conan-release
-          cmake --build --preset=conan-release
-          cmake --preset=conan-debug
-          cmake --build --preset=conan-debug
+          cmake -P cmake/Build.cmake
       - name: Run the application and the tests
         run: |
           cd ${{ github.event.repository.name }}
-          ./build/Release/src/app/CppSampleProject
-          ./build/Release/test/CppSampleProjectTest
+          cmake -P cmake/Run.cmake
+          cmake -P cmake/Test.cmake
           ctest --test-dir ./build/Release/test
-          ./build/Debug/src/app/CppSampleProject
-          ./build/Debug/test/CppSampleProjectTest
-          ctest --test-dir ./build/Debug/test
       - name: Run Valgrind
         if: runner.os == 'Linux'
         run: |
