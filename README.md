@@ -83,18 +83,18 @@ cd CppSampleProject
 
 ### **Steps to resolve the dependencies and set up the project:**
 ```
-cmake -P cmake/Setup.cmake
+cmake -P cmake/setup.cmake
 ```
 
 ### **Steps of build:**
 ```
-cmake -P cmake/Build.cmake
+cmake -P cmake/build.cmake
 ```
 
 ### **Commands of run:**
 ```
-cmake -P cmake/Run.cmake
-cmake -P cmake/Test.cmake
+cmake -P cmake/run.cmake
+cmake -P cmake/test.cmake
 ```
 The first command runs the application, the second runs the tests.  
 The **ctest** command also works:  
@@ -105,31 +105,31 @@ ctest --test-dir ./build/Debug/test     # For Debug
 
 ### **Delete the build directory:**
 ```
-cmake -P cmake/Clean.cmake
+cmake -P cmake/clean.cmake
 ```
 
 ### **Run all steps (including: deps, setup, config, build, run, test):**
 ```
-cmake -P cmake/All.cmake
+cmake -P cmake/all.cmake
 ```
 
 ### **Commands to switch betwen Release and Debug mode:**
 ```
-cmake -P cmake/SetRelease.cmake
-cmake -P cmake/SetDebug.cmake
+cmake -P cmake/setRelease.cmake
+cmake -P cmake/setDebug.cmake
 ```
 The default mode is Release.
 
 ### **Command to run Valgrind:**
 ```
-cmake -P cmake/Valgrind.cmake
+cmake -P cmake/valgrind.cmake
 ```
 The **Valgrind** program has to be available on the machine.  
 The debug version of the executable has to be built.
 
 ### **Command to measure the code coverage:**
 ```
-cmake -P cmake/TestCov.cmake
+cmake -P cmake/testCov.cmake
 ```
 The **LCOV Code Coverage** program has to be available on the machine.  
 The report will be saved into the **build** directory; the main file is "./build/TestCov/CodeCoverage/index.html".  
@@ -140,20 +140,20 @@ Online the code coverage of the latest version can be found here: [**Code covera
 
 ### **Command to analyse the code:**
 ```
-cmake -P cmake/AnalyseCode.cmake
+cmake -P cmake/analyseCode.cmake
 ```
 The **Clang-Tidy** program has to be available on the machine.  
 The './run.sh config' command has to be ran before running this.
 
 ### **Command to format the code:**
 ```
-cmake -P cmake/FormatCode.cmake
+cmake -P cmake/formatCode.cmake
 ```
 The **ClangFormat** program has to be available on the machine.
 
 ### **Command to create the document:**
 ```
-cmake -P cmake/Doxygen.cmake
+cmake -P cmake/doxygen.cmake
 ```
 The **Doxygen** and the **Graphviz** programs have to be available on the machine.  
 The doc will be saved into the **build** directory; the main file is "./build/Doc/html/index.html".  
@@ -161,7 +161,7 @@ Online the documentation about the latest version can be found here: [**Document
 
 ### **Command to check complexity:**
 ```
-cmake -P cmake/Complex.cmake
+cmake -P cmake/complex.cmake
 ```
 The **Lizard** program has to be available on the machine.  
 A codecloud picture will be saved into the **build** directory; the file is "./build/codecloud.html".  
@@ -169,8 +169,8 @@ Online the pic about the latest version can be found here: [**Codecloud**](https
 
 ### **Commands to create a patch from the last commit, and to apply it:**
 ```
-cmake -P cmake/CreatePatch.cmake
-cmake -P cmake/ApplyPatch.cmake
+cmake -P cmake/createPatch.cmake
+cmake -P cmake/applyPatch.cmake
 ```
 
 ## **Happy developing!**

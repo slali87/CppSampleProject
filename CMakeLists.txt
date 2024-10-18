@@ -1,4 +1,4 @@
-include(cmake/utility/Common.cmake)
+include(cmake/utility/common.cmake)
 
 getVersion(version)
 cmake_minimum_required(VERSION ${version})
@@ -14,7 +14,7 @@ message(STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include(cmake/utility/Config.cmake)
+include(cmake/utility/config.cmake)
 
 add_subdirectory(src)
 include(CTest)

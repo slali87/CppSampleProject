@@ -1,4 +1,4 @@
-include(cmake/utility/Common.cmake)
+include(cmake/utility/common.cmake)
 getVersion(version)
 cmake_minimum_required(VERSION ${version})
 
@@ -25,7 +25,7 @@ execute_process(COMMAND conan install . -s "&:build_type=TestCov" -pr:a=${profil
 
 # set default build type to release
 if(NOT EXISTS "./build/BuildType/")
-  execute_process(COMMAND cmake -P cmake/SetRelease.cmake
+  execute_process(COMMAND cmake -P cmake/setRelease.cmake
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMAND_ERROR_IS_FATAL ANY)
 endif()

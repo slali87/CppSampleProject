@@ -34,7 +34,7 @@ jobs:
       - name: Resolve the dependencies and set up the project
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/Setup.cmake
+          cmake -P cmake/setup.cmake
       - name: Test the commit message checker
         if: runner.os == 'Linux'
         run: |
@@ -51,36 +51,36 @@ jobs:
       - name: Build
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/Build.cmake
-          cmake -P cmake/SetDebug.cmake
-          cmake -P cmake/Build.cmake
-          cmake -P cmake/SetRelease.cmake
+          cmake -P cmake/build.cmake
+          cmake -P cmake/setDebug.cmake
+          cmake -P cmake/build.cmake
+          cmake -P cmake/setRelease.cmake
       - name: Run the application and the tests
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/Run.cmake
-          cmake -P cmake/Test.cmake
+          cmake -P cmake/run.cmake
+          cmake -P cmake/test.cmake
           ctest --test-dir ./build/Release/test
       - name: Run Valgrind
         if: runner.os == 'Linux'
         run: |
           cd ${{ github.event.repository.name }}
           sudo apt install valgrind
-          cmake -P cmake/Valgrind.cmake
+          cmake -P cmake/valgrind.cmake
       - name: Test coverage
         if: runner.os == 'Linux'
         run: |
           cd ${{ github.event.repository.name }}
           sudo apt install lcov
-          cmake -P cmake/TestCov.cmake
+          cmake -P cmake/testCov.cmake
       - name: Analyse the code
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/AnalyseCode.cmake
+          cmake -P cmake/analyseCode.cmake
       - name: Format the code
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/FormatCode.cmake
+          cmake -P cmake/formatCode.cmake
       - name: Install Doxygen on Linux
         if: runner.os == 'Linux'
         run: |
@@ -99,12 +99,12 @@ jobs:
           CMD: ${{ runner.os == 'Windows' && '"C:\Program Files\doxygen\bin\doxygen"' || '' }}
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/Doxygen.cmake ${{ env.CMD }}
+          cmake -P cmake/doxygen.cmake ${{ env.CMD }}
       - name: Check complexity
         run: |
           cd ${{ github.event.repository.name }}
           pip install lizard --break-system-packages
-          cmake -P cmake/Complex.cmake
+          cmake -P cmake/complex.cmake
       - name: Upload artifacts
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
