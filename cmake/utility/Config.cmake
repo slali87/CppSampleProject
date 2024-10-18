@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.28)
-
 # Add -fno-exceptions otherwise there are a lot of branch detections because of Google test`s TEST macro.
 SET( CMAKE_CXX_FLAGS_TESTCOV "-O0 -g --coverage -fno-exceptions"
         CACHE STRING "Flags used by the C++ compiler during coverage builds."

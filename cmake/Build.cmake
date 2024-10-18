@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.28)
+include(cmake/utility/Common.cmake)
+getVersion(version)
+cmake_minimum_required(VERSION ${version})
 
 if(EXISTS "./build/BuildType/Release")
     execute_process(COMMAND cmake --preset=conan-release

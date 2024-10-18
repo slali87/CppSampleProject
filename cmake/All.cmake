@@ -1,5 +1,6 @@
-cmake_minimum_required(VERSION 3.28)
-
+include(cmake/utility/Common.cmake)
+getVersion(version)
+cmake_minimum_required(VERSION ${version})
 
 execute_process(COMMAND cmake -P cmake/Setup.cmake
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}

@@ -1,14 +1,15 @@
-cmake_minimum_required(VERSION 3.28)
+include(cmake/utility/Common.cmake)
+getVersion(version)
+cmake_minimum_required(VERSION ${version})
 
-get_filename_component(ProjectId ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-string(REPLACE " " "_" ProjectId ${ProjectId})
+getProjectName(projectName)
 
 if(EXISTS "./build/BuildType/Release")
-    execute_process(COMMAND "./build/Release/test/${ProjectId}Test"
+    execute_process(COMMAND "./build/Release/test/${projectName}Test"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMAND_ERROR_IS_FATAL ANY)
 elseif(EXISTS "./build/BuildType/Debug")
-    execute_process(COMMAND "./build/Debug/test/${ProjectId}Test"
+    execute_process(COMMAND "./build/Debug/test/${projectName}Test"
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         COMMAND_ERROR_IS_FATAL ANY)
 else()

@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.28)
+include(cmake/utility/Common.cmake)
+getVersion(version)
+cmake_minimum_required(VERSION ${version})
 
 execute_process(COMMAND git format-patch -1 HEAD --output=${CMAKE_SOURCE_DIR}/build/patchFile.patch
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}

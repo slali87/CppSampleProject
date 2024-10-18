@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.28)
+include(cmake/utility/Common.cmake)
+getVersion(version)
+cmake_minimum_required(VERSION ${version})
 
 # The limits and extensions should be re-investigated, the tool was sometimes stuck with t4
 execute_process(COMMAND lizard 

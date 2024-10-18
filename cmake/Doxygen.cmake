@@ -1,29 +1,25 @@
-cmake_minimum_required(VERSION 3.28)
+include(cmake/utility/Common.cmake)
+getVersion(version)
+cmake_minimum_required(VERSION ${version})
 
 message("Run Doxygen")
+
 # Workaround for the CMake-Doxygen-Windows path issue
 if(${CMAKE_ARGC} EQUAL 4)
-   set(Doxygen "${CMAKE_ARGV3}")
+   set(doxygen "${CMAKE_ARGV3}")
 else()
-   set(Doxygen "doxygen")
+   set(doxygen "doxygen")
 endif()
-message("Doxygen: ${Doxygen}")
-execute_process(COMMAND ${Doxygen} ${CMAKE_SOURCE_DIR}/Doxyfile
+message("Doxygen: ${doxygen}")
+execute_process(COMMAND ${doxygen} ${CMAKE_SOURCE_DIR}/Doxyfile
    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
    COMMAND_ERROR_IS_FATAL ANY)
 
-# Delete PATTERN from the file named FILE_NAME
-function(delete FILE_NAME PATTERN)
-   file(READ ${FILE_NAME} FILE_CONTENTS)
-   string(REGEX REPLACE "${PATTERN}" "" FILE_CONTENTS "${FILE_CONTENTS}")
-   file(WRITE ${FILE_NAME} "${FILE_CONTENTS}")
-endfunction()
-
 # Remove unwanted 'strong' html tags from the results, Doxygen puts them for some reason...
 message("Remove unwanted 'strong' html tags")
-set(PATTERN "&lt;strong&gt;|&lt;/strong&gt;|<strong>|</strong>")
-delete(./build/Doc/html/index.html "${PATTERN}")
+set(pattern "&lt;strong&gt;|&lt;/strong&gt;|<strong>|</strong>")
+deleteFromFile(./build/Doc/html/index.html "${pattern}")
 if(EXISTS "./build/Doc/html/index.js")
-   delete(./build/Doc/html/index.js "${PATTERN}")
+   deleteFromFile(./build/Doc/html/index.js "${pattern}")
 endif()
-delete(./build/Doc/html/navtreedata.js "${PATTERN}")
+deleteFromFile(./build/Doc/html/navtreedata.js "${pattern}")
