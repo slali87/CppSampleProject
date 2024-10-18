@@ -57,7 +57,7 @@ endfunction()
 # Set build type based on the CMAKE_PARENT_LIST_FILE.
 function(setBuildType)
   get_filename_component(scriptName ${CMAKE_PARENT_LIST_FILE} NAME_WLE)
-  string(REPLACE "Set" "" buildType ${scriptName})
+  string(REPLACE "set" "" buildType ${scriptName})
 
   set(directory "./build/BuildType/")
   if(EXISTS "${directory}")
