@@ -4,14 +4,9 @@ cmake_minimum_required(VERSION ${version})
 
 message("Run Doxygen")
 
-# Workaround for the CMake-Doxygen-Windows path issue
-if(${CMAKE_ARGC} EQUAL 4)
-   set(doxygen "${CMAKE_ARGV3}")
-else()
-   set(doxygen "doxygen")
-endif()
-message("Doxygen: ${doxygen}")
-execute_process(COMMAND ${doxygen} ${CMAKE_SOURCE_DIR}/Doxyfile
+find_program(doxygenPath doxygen REQUIRED)
+message("Doxygen: ${doxygenPath}")
+execute_process(COMMAND ${doxygenPath} ${CMAKE_SOURCE_DIR}/Doxyfile
    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
    COMMAND_ERROR_IS_FATAL ANY)
 

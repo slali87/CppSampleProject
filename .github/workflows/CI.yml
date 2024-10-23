@@ -94,12 +94,9 @@ jobs:
           choco install doxygen.install
           choco install graphviz
       - name: Create the document
-        env:
-          # Add full path on Windows since CMake can not see the doxygen from the PATH 
-          CMD: ${{ runner.os == 'Windows' && '"C:\Program Files\doxygen\bin\doxygen"' || '' }}
         run: |
           cd ${{ github.event.repository.name }}
-          cmake -P cmake/doxygen.cmake ${{ env.CMD }}
+          cmake -P cmake/doxygen.cmake
       - name: Check complexity
         run: |
           cd ${{ github.event.repository.name }}
