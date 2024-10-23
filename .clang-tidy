@@ -1,5 +1,13 @@
 ---
-Checks:          '*,-modernize-use-trailing-return-type,-llvm-header-guard,-google-readability-avoid-underscore-in-googletest-name,-llvmlibc*'
+Checks:          '*,
+     # Using clang-format to order includes,
+    -llvm-include-order,
+     # Currently this is not relevant,
+    -modernize-use-trailing-return-type,
+     # Use underscore on purpose,
+    -google-readability-avoid-underscore-in-googletest-name,
+     # These are not relevant,
+    -llvmlibc*'
 WarningsAsErrors: '*'
 FormatStyle:     file
 ...

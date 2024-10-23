@@ -1,8 +1,5 @@
 name: CI
 on: [push, pull_request]
-defaults:
-  run:
-    shell: bash
 jobs:
   Verification:
     name: ${{ matrix.config.name }}
@@ -13,108 +10,110 @@ jobs:
         config:
         - {
             name: "Linux",
-            os: ubuntu-latest
+#            os: ubuntu-latest    # TODO: Use it again when it will be ubuntu-24.04, Probably after October 30th , 2024
+            os: ubuntu-24.04
           }
         - {
             name: "Windows",
             os: windows-latest
           }
     steps:
-      - name: Create the Projects directory
-        run: mkdir Projects
       - name: Clone the repo
+        env:
+          # Fake ternary syntax : ${{ condition && 'ifTrue' || 'ifFalse'  }}
+          BRANCH: ${{ github.event_name =='pull_request' && github.head_ref || github.ref_name }}
         run: |
-          BRANCH=${{ github.ref_name }}
-          if [ ${{ github.event_name }} = 'pull_request' ]; then
-            BRANCH=${{ github.head_ref }}
-          fi
-          echo "BRANCH:$BRANCH"
-          git clone --depth 1 --single-branch --branch $BRANCH --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git Projects/${{ github.event.repository.name }}
-      - name: Resolve the dependencies
+          echo "BRANCH:$BRANCH"      # Linux
+          echo "BRANCH:%BRANCH%"     # Cmd
+          echo "BRANCH:$Env:BRANCH"  # PS
+          git clone --depth 1 --single-branch --branch ${{ env.BRANCH }} --no-tags https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}.git
+      - name: Install Conan
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh deps
-      - name: Set up the project
+          cd ${{ github.event.repository.name }}
+          pip install conan --break-system-packages
+      - name: Resolve the dependencies and set up the project
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh setup
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/setup.cmake
       - name: Test the commit message checker
         if: runner.os == 'Linux'
         run: |
-          cd Projects/${{ github.event.repository.name }}/tools/git/hooks
+          cd ${{ github.event.repository.name }}/tools/git/hooks
           ./test_commit-msg
       - name: Check the commit message
         # on pull_request, available commit message is not found by the tried command
         if: runner.os == 'Linux' && github.event_name != 'pull_request'
         run: |
-          cd Projects/${{ github.event.repository.name }}/tools/git/hooks
+          cd ${{ github.event.repository.name }}/tools/git/hooks
           git log -1 --pretty=%B > ./commitMessage
           ./commit-msg ./commitMessage
           rm ./commitMessage
       - name: Build
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh config
-          ./run.sh build
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/build.cmake
+          cmake -P cmake/setDebug.cmake
+          cmake -P cmake/build.cmake
+          cmake -P cmake/setRelease.cmake
       - name: Run the application and the tests
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh run
-          ./run.sh test
-          cd ./build && ctest && cd -
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/run.cmake
+          cmake -P cmake/test.cmake
+          ctest --test-dir ./build/Release/test
       - name: Run Valgrind
         if: runner.os == 'Linux'
         run: |
-          cd Projects/${{ github.event.repository.name }}
+          cd ${{ github.event.repository.name }}
           sudo apt install valgrind
-          ./run.sh setDeb
-          ./run.sh config
-          ./run.sh build
-          ./run.sh valgrind
-          ./run.sh setRel
+          cmake -P cmake/valgrind.cmake
       - name: Test coverage
         if: runner.os == 'Linux'
         run: |
-          cd Projects/${{ github.event.repository.name }}
+          cd ${{ github.event.repository.name }}
           sudo apt install lcov
-          ./run.sh testCov
+          cmake -P cmake/testCov.cmake
       - name: Analyse the code
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh analyseCode
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/analyseCode.cmake
       - name: Format the code
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh formatCode
-      - name: Install Doxygen
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/formatCode.cmake
+      - name: Install Doxygen on Linux
+        if: runner.os == 'Linux'
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt install doxygen
-            sudo apt install graphviz
-          elif [ "$RUNNER_OS" == "Windows" ]; then
-            choco install doxygen.install
-            choco install graphviz
-            echo "/C/Program Files/doxygen/bin" >> $GITHUB_PATH
-          fi
+          cd ${{ github.event.repository.name }}
+          sudo apt install doxygen
+          sudo apt install graphviz
+      - name: Install Doxygen on Windows
+        if: runner.os == 'Windows'
+        run: |
+          cd ${{ github.event.repository.name }}
+          choco install doxygen.install
+          choco install graphviz
       - name: Create the document
+        env:
+          # Add full path on Windows since CMake can not see the doxygen from the PATH 
+          CMD: ${{ runner.os == 'Windows' && '"C:\Program Files\doxygen\bin\doxygen"' || '' }}
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          ./run.sh doc
+          cd ${{ github.event.repository.name }}
+          cmake -P cmake/doxygen.cmake ${{ env.CMD }}
       - name: Check complexity
         run: |
-          cd Projects/${{ github.event.repository.name }}
-          pip install lizard
-          ./run.sh complex
+          cd ${{ github.event.repository.name }}
+          pip install lizard --break-system-packages
+          cmake -P cmake/complex.cmake
       - name: Upload artifacts
         if: runner.os == 'Linux'
         uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: |
-            Projects/${{ github.event.repository.name }}/build/Doc/html
-            Projects/${{ github.event.repository.name }}/build/TestCov/CodeCoverage
-            Projects/${{ github.event.repository.name }}/build/codecloud.html
+            ${{ github.event.repository.name }}/build/Doc/html
+            ${{ github.event.repository.name }}/build/TestCov/CodeCoverage
+            ${{ github.event.repository.name }}/build/codecloud.html
           retention-days: 1
   UploadToGHpages:
     name: UploadToGHpages

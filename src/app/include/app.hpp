@@ -1,5 +1,5 @@
-#ifndef APP_H
-#define APP_H
+#ifndef APP_HPP
+#define APP_HPP
 
 /** @file
  * @brief App related elements.
@@ -7,6 +7,9 @@
  * It contains the App related elements.
  */
 
+#include "lib/iLib.hpp"
+
+namespace app {
 /**
  * @brief A template for executables.
  *
@@ -14,6 +17,13 @@
  */
 class App {
  public:
+  constexpr explicit App(const lib::ILib& lib) : mLib(lib) {}
+  constexpr App(const App&) = delete;
+  constexpr App(App&&) = delete;
+  App& operator=(const App&) = delete;
+  App& operator=(App&&) = delete;
+  constexpr ~App() = default;
+
   /**
    * @brief The entry point of App.
    *
@@ -24,6 +34,10 @@ class App {
    * @return the error code: 0 means everything went well.
    */
   int main();
-};
 
-#endif  // APP_H
+ private:
+  const lib::ILib& mLib;
+};
+}  // namespace app
+
+#endif  // APP_HPP
